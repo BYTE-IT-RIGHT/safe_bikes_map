@@ -23,6 +23,8 @@ dependencies:
   hive_flutter: ^1.1.0
   flutter_svg: ^2.0.10+1
   google_maps_flutter: ^2.9.0
+  geobase: ^1.3.0
+  http: ^1.2.2
 
 dev_dependencies:
   flutter_test:
