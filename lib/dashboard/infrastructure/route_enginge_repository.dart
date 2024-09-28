@@ -10,6 +10,7 @@ class RouteEngingeRepository implements IRouteEngineRepository {
     LatLng startPoint,
     LatLng endPoint,
   ) async {
+    print('start');
     final body = {
       'locations': [
         {
@@ -23,7 +24,7 @@ class RouteEngingeRepository implements IRouteEngineRepository {
       'directions_options': {'units': 'kilometers'}
     };
 
-    final result = await http.post(Uri.parse(''), body: jsonEncode(body));
+    final result = await http.post(Uri.parse('http://192.168.184.165:8002/route'), body: jsonEncode(body)).timeout(Duration(seconds: 3));
     if (result.statusCode == 200) {
       print(result.body);
     }

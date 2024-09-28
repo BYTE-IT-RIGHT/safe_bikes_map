@@ -20,6 +20,7 @@ mixin _$RouteEngineState {
   bool get fromDestinationSelected => throw _privateConstructorUsedError;
   LatLng? get startPoint => throw _privateConstructorUsedError;
   LatLng? get endPoint => throw _privateConstructorUsedError;
+  Set<Marker> get markers => throw _privateConstructorUsedError;
 
   /// Create a copy of RouteEngineState
   /// with the given fields replaced by the non-null parameter values.
@@ -38,7 +39,8 @@ abstract class $RouteEngineStateCopyWith<$Res> {
       {bool toDestinationSelected,
       bool fromDestinationSelected,
       LatLng? startPoint,
-      LatLng? endPoint});
+      LatLng? endPoint,
+      Set<Marker> markers});
 }
 
 /// @nodoc
@@ -60,6 +62,7 @@ class _$RouteEngineStateCopyWithImpl<$Res, $Val extends RouteEngineState>
     Object? fromDestinationSelected = null,
     Object? startPoint = freezed,
     Object? endPoint = freezed,
+    Object? markers = null,
   }) {
     return _then(_value.copyWith(
       toDestinationSelected: null == toDestinationSelected
@@ -78,6 +81,10 @@ class _$RouteEngineStateCopyWithImpl<$Res, $Val extends RouteEngineState>
           ? _value.endPoint
           : endPoint // ignore: cast_nullable_to_non_nullable
               as LatLng?,
+      markers: null == markers
+          ? _value.markers
+          : markers // ignore: cast_nullable_to_non_nullable
+              as Set<Marker>,
     ) as $Val);
   }
 }
@@ -94,7 +101,8 @@ abstract class _$$RouteEngineStateImplCopyWith<$Res>
       {bool toDestinationSelected,
       bool fromDestinationSelected,
       LatLng? startPoint,
-      LatLng? endPoint});
+      LatLng? endPoint,
+      Set<Marker> markers});
 }
 
 /// @nodoc
@@ -114,6 +122,7 @@ class __$$RouteEngineStateImplCopyWithImpl<$Res>
     Object? fromDestinationSelected = null,
     Object? startPoint = freezed,
     Object? endPoint = freezed,
+    Object? markers = null,
   }) {
     return _then(_$RouteEngineStateImpl(
       toDestinationSelected: null == toDestinationSelected
@@ -132,6 +141,10 @@ class __$$RouteEngineStateImplCopyWithImpl<$Res>
           ? _value.endPoint
           : endPoint // ignore: cast_nullable_to_non_nullable
               as LatLng?,
+      markers: null == markers
+          ? _value._markers
+          : markers // ignore: cast_nullable_to_non_nullable
+              as Set<Marker>,
     ));
   }
 }
@@ -141,9 +154,11 @@ class __$$RouteEngineStateImplCopyWithImpl<$Res>
 class _$RouteEngineStateImpl implements _RouteEngineState {
   const _$RouteEngineStateImpl(
       {this.toDestinationSelected = false,
-      this.fromDestinationSelected = false,
+      this.fromDestinationSelected = true,
       this.startPoint,
-      this.endPoint});
+      this.endPoint,
+      final Set<Marker> markers = const {}})
+      : _markers = markers;
 
   @override
   @JsonKey()
@@ -155,10 +170,18 @@ class _$RouteEngineStateImpl implements _RouteEngineState {
   final LatLng? startPoint;
   @override
   final LatLng? endPoint;
+  final Set<Marker> _markers;
+  @override
+  @JsonKey()
+  Set<Marker> get markers {
+    if (_markers is EqualUnmodifiableSetView) return _markers;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableSetView(_markers);
+  }
 
   @override
   String toString() {
-    return 'RouteEngineState(toDestinationSelected: $toDestinationSelected, fromDestinationSelected: $fromDestinationSelected, startPoint: $startPoint, endPoint: $endPoint)';
+    return 'RouteEngineState(toDestinationSelected: $toDestinationSelected, fromDestinationSelected: $fromDestinationSelected, startPoint: $startPoint, endPoint: $endPoint, markers: $markers)';
   }
 
   @override
@@ -174,12 +197,18 @@ class _$RouteEngineStateImpl implements _RouteEngineState {
             (identical(other.startPoint, startPoint) ||
                 other.startPoint == startPoint) &&
             (identical(other.endPoint, endPoint) ||
-                other.endPoint == endPoint));
+                other.endPoint == endPoint) &&
+            const DeepCollectionEquality().equals(other._markers, _markers));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, toDestinationSelected,
-      fromDestinationSelected, startPoint, endPoint);
+  int get hashCode => Object.hash(
+      runtimeType,
+      toDestinationSelected,
+      fromDestinationSelected,
+      startPoint,
+      endPoint,
+      const DeepCollectionEquality().hash(_markers));
 
   /// Create a copy of RouteEngineState
   /// with the given fields replaced by the non-null parameter values.
@@ -196,7 +225,8 @@ abstract class _RouteEngineState implements RouteEngineState {
       {final bool toDestinationSelected,
       final bool fromDestinationSelected,
       final LatLng? startPoint,
-      final LatLng? endPoint}) = _$RouteEngineStateImpl;
+      final LatLng? endPoint,
+      final Set<Marker> markers}) = _$RouteEngineStateImpl;
 
   @override
   bool get toDestinationSelected;
@@ -206,6 +236,8 @@ abstract class _RouteEngineState implements RouteEngineState {
   LatLng? get startPoint;
   @override
   LatLng? get endPoint;
+  @override
+  Set<Marker> get markers;
 
   /// Create a copy of RouteEngineState
   /// with the given fields replaced by the non-null parameter values.
