@@ -16,8 +16,14 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$RouteEngineState {
-  bool get toDestinationSelected => throw _privateConstructorUsedError;
+  TextEditingController get toDestinationController =>
+      throw _privateConstructorUsedError;
+  TextEditingController get fromDestinationController =>
+      throw _privateConstructorUsedError;
+  FocusNode get focusNodeToDestination => throw _privateConstructorUsedError;
+  FocusNode get focusNodeFromDestination => throw _privateConstructorUsedError;
   bool get fromDestinationSelected => throw _privateConstructorUsedError;
+  bool get toDestinationSelected => throw _privateConstructorUsedError;
   LatLng? get startPoint => throw _privateConstructorUsedError;
   LatLng? get endPoint => throw _privateConstructorUsedError;
   Set<Marker> get markers => throw _privateConstructorUsedError;
@@ -36,8 +42,12 @@ abstract class $RouteEngineStateCopyWith<$Res> {
       _$RouteEngineStateCopyWithImpl<$Res, RouteEngineState>;
   @useResult
   $Res call(
-      {bool toDestinationSelected,
+      {TextEditingController toDestinationController,
+      TextEditingController fromDestinationController,
+      FocusNode focusNodeToDestination,
+      FocusNode focusNodeFromDestination,
       bool fromDestinationSelected,
+      bool toDestinationSelected,
       LatLng? startPoint,
       LatLng? endPoint,
       Set<Marker> markers});
@@ -58,20 +68,40 @@ class _$RouteEngineStateCopyWithImpl<$Res, $Val extends RouteEngineState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? toDestinationSelected = null,
+    Object? toDestinationController = null,
+    Object? fromDestinationController = null,
+    Object? focusNodeToDestination = null,
+    Object? focusNodeFromDestination = null,
     Object? fromDestinationSelected = null,
+    Object? toDestinationSelected = null,
     Object? startPoint = freezed,
     Object? endPoint = freezed,
     Object? markers = null,
   }) {
     return _then(_value.copyWith(
-      toDestinationSelected: null == toDestinationSelected
-          ? _value.toDestinationSelected
-          : toDestinationSelected // ignore: cast_nullable_to_non_nullable
-              as bool,
+      toDestinationController: null == toDestinationController
+          ? _value.toDestinationController
+          : toDestinationController // ignore: cast_nullable_to_non_nullable
+              as TextEditingController,
+      fromDestinationController: null == fromDestinationController
+          ? _value.fromDestinationController
+          : fromDestinationController // ignore: cast_nullable_to_non_nullable
+              as TextEditingController,
+      focusNodeToDestination: null == focusNodeToDestination
+          ? _value.focusNodeToDestination
+          : focusNodeToDestination // ignore: cast_nullable_to_non_nullable
+              as FocusNode,
+      focusNodeFromDestination: null == focusNodeFromDestination
+          ? _value.focusNodeFromDestination
+          : focusNodeFromDestination // ignore: cast_nullable_to_non_nullable
+              as FocusNode,
       fromDestinationSelected: null == fromDestinationSelected
           ? _value.fromDestinationSelected
           : fromDestinationSelected // ignore: cast_nullable_to_non_nullable
+              as bool,
+      toDestinationSelected: null == toDestinationSelected
+          ? _value.toDestinationSelected
+          : toDestinationSelected // ignore: cast_nullable_to_non_nullable
               as bool,
       startPoint: freezed == startPoint
           ? _value.startPoint
@@ -98,8 +128,12 @@ abstract class _$$RouteEngineStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {bool toDestinationSelected,
+      {TextEditingController toDestinationController,
+      TextEditingController fromDestinationController,
+      FocusNode focusNodeToDestination,
+      FocusNode focusNodeFromDestination,
       bool fromDestinationSelected,
+      bool toDestinationSelected,
       LatLng? startPoint,
       LatLng? endPoint,
       Set<Marker> markers});
@@ -118,20 +152,40 @@ class __$$RouteEngineStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? toDestinationSelected = null,
+    Object? toDestinationController = null,
+    Object? fromDestinationController = null,
+    Object? focusNodeToDestination = null,
+    Object? focusNodeFromDestination = null,
     Object? fromDestinationSelected = null,
+    Object? toDestinationSelected = null,
     Object? startPoint = freezed,
     Object? endPoint = freezed,
     Object? markers = null,
   }) {
     return _then(_$RouteEngineStateImpl(
-      toDestinationSelected: null == toDestinationSelected
-          ? _value.toDestinationSelected
-          : toDestinationSelected // ignore: cast_nullable_to_non_nullable
-              as bool,
+      toDestinationController: null == toDestinationController
+          ? _value.toDestinationController
+          : toDestinationController // ignore: cast_nullable_to_non_nullable
+              as TextEditingController,
+      fromDestinationController: null == fromDestinationController
+          ? _value.fromDestinationController
+          : fromDestinationController // ignore: cast_nullable_to_non_nullable
+              as TextEditingController,
+      focusNodeToDestination: null == focusNodeToDestination
+          ? _value.focusNodeToDestination
+          : focusNodeToDestination // ignore: cast_nullable_to_non_nullable
+              as FocusNode,
+      focusNodeFromDestination: null == focusNodeFromDestination
+          ? _value.focusNodeFromDestination
+          : focusNodeFromDestination // ignore: cast_nullable_to_non_nullable
+              as FocusNode,
       fromDestinationSelected: null == fromDestinationSelected
           ? _value.fromDestinationSelected
           : fromDestinationSelected // ignore: cast_nullable_to_non_nullable
+              as bool,
+      toDestinationSelected: null == toDestinationSelected
+          ? _value.toDestinationSelected
+          : toDestinationSelected // ignore: cast_nullable_to_non_nullable
               as bool,
       startPoint: freezed == startPoint
           ? _value.startPoint
@@ -153,19 +207,31 @@ class __$$RouteEngineStateImplCopyWithImpl<$Res>
 
 class _$RouteEngineStateImpl implements _RouteEngineState {
   const _$RouteEngineStateImpl(
-      {this.toDestinationSelected = false,
-      this.fromDestinationSelected = true,
+      {required this.toDestinationController,
+      required this.fromDestinationController,
+      required this.focusNodeToDestination,
+      required this.focusNodeFromDestination,
+      this.fromDestinationSelected = false,
+      this.toDestinationSelected = false,
       this.startPoint,
       this.endPoint,
       final Set<Marker> markers = const {}})
       : _markers = markers;
 
   @override
-  @JsonKey()
-  final bool toDestinationSelected;
+  final TextEditingController toDestinationController;
+  @override
+  final TextEditingController fromDestinationController;
+  @override
+  final FocusNode focusNodeToDestination;
+  @override
+  final FocusNode focusNodeFromDestination;
   @override
   @JsonKey()
   final bool fromDestinationSelected;
+  @override
+  @JsonKey()
+  final bool toDestinationSelected;
   @override
   final LatLng? startPoint;
   @override
@@ -181,7 +247,7 @@ class _$RouteEngineStateImpl implements _RouteEngineState {
 
   @override
   String toString() {
-    return 'RouteEngineState(toDestinationSelected: $toDestinationSelected, fromDestinationSelected: $fromDestinationSelected, startPoint: $startPoint, endPoint: $endPoint, markers: $markers)';
+    return 'RouteEngineState(toDestinationController: $toDestinationController, fromDestinationController: $fromDestinationController, focusNodeToDestination: $focusNodeToDestination, focusNodeFromDestination: $focusNodeFromDestination, fromDestinationSelected: $fromDestinationSelected, toDestinationSelected: $toDestinationSelected, startPoint: $startPoint, endPoint: $endPoint, markers: $markers)';
   }
 
   @override
@@ -189,11 +255,22 @@ class _$RouteEngineStateImpl implements _RouteEngineState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$RouteEngineStateImpl &&
-            (identical(other.toDestinationSelected, toDestinationSelected) ||
-                other.toDestinationSelected == toDestinationSelected) &&
+            (identical(
+                    other.toDestinationController, toDestinationController) ||
+                other.toDestinationController == toDestinationController) &&
+            (identical(other.fromDestinationController,
+                    fromDestinationController) ||
+                other.fromDestinationController == fromDestinationController) &&
+            (identical(other.focusNodeToDestination, focusNodeToDestination) ||
+                other.focusNodeToDestination == focusNodeToDestination) &&
+            (identical(
+                    other.focusNodeFromDestination, focusNodeFromDestination) ||
+                other.focusNodeFromDestination == focusNodeFromDestination) &&
             (identical(
                     other.fromDestinationSelected, fromDestinationSelected) ||
                 other.fromDestinationSelected == fromDestinationSelected) &&
+            (identical(other.toDestinationSelected, toDestinationSelected) ||
+                other.toDestinationSelected == toDestinationSelected) &&
             (identical(other.startPoint, startPoint) ||
                 other.startPoint == startPoint) &&
             (identical(other.endPoint, endPoint) ||
@@ -204,8 +281,12 @@ class _$RouteEngineStateImpl implements _RouteEngineState {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      toDestinationSelected,
+      toDestinationController,
+      fromDestinationController,
+      focusNodeToDestination,
+      focusNodeFromDestination,
       fromDestinationSelected,
+      toDestinationSelected,
       startPoint,
       endPoint,
       const DeepCollectionEquality().hash(_markers));
@@ -222,16 +303,28 @@ class _$RouteEngineStateImpl implements _RouteEngineState {
 
 abstract class _RouteEngineState implements RouteEngineState {
   const factory _RouteEngineState(
-      {final bool toDestinationSelected,
+      {required final TextEditingController toDestinationController,
+      required final TextEditingController fromDestinationController,
+      required final FocusNode focusNodeToDestination,
+      required final FocusNode focusNodeFromDestination,
       final bool fromDestinationSelected,
+      final bool toDestinationSelected,
       final LatLng? startPoint,
       final LatLng? endPoint,
       final Set<Marker> markers}) = _$RouteEngineStateImpl;
 
   @override
-  bool get toDestinationSelected;
+  TextEditingController get toDestinationController;
+  @override
+  TextEditingController get fromDestinationController;
+  @override
+  FocusNode get focusNodeToDestination;
+  @override
+  FocusNode get focusNodeFromDestination;
   @override
   bool get fromDestinationSelected;
+  @override
+  bool get toDestinationSelected;
   @override
   LatLng? get startPoint;
   @override

@@ -1,6 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:google_places_flutter/model/prediction.dart';
 import 'package:safe_bikes_map/dashboard/domain/i_route_engine_repository.dart';
 
 part 'route_engine_state.dart';
@@ -10,21 +12,71 @@ class RouteEngineCubit extends Cubit<RouteEngineState> {
   final IRouteEngineRepository routeEngineRepository;
   RouteEngineCubit({
     required this.routeEngineRepository,
-  }) : super(const RouteEngineState());
+  }) : super(RouteEngineState(
+            fromDestinationController: TextEditingController(),
+            toDestinationController: TextEditingController(),
+            focusNodeFromDestination: FocusNode(),
+            focusNodeToDestination: FocusNode()));
 
-  void addStartPoint(LatLng v) => emit(state.copyWith(startPoint: v));
+  void init() {
+    state.focusNodeFromDestination.addListener(() {
+      if (state.focusNodeFromDestination.hasFocus) {
+        state.focusNodeToDestination.unfocus();
+        emit(state.copyWith(
+            fromDestinationSelected: true, toDestinationSelected: false));
+      }
+    });
+    state.focusNodeToDestination.addListener(() {
+      if (state.focusNodeToDestination.hasFocus) {
+        state.focusNodeFromDestination.unfocus();
+        emit(state.copyWith(
+            toDestinationSelected: true, fromDestinationSelected: false));
+      }
+    });
+  }
 
-  void addEndPoint(LatLng v) => emit(state.copyWith(endPoint: v));
+  void addStartPoint(LatLng v) {
+    final markers = Set<Marker>.from(state.markers);
+    markers.removeWhere((element) => element.markerId.value == 'from');
+    markers.add(Marker(markerId: const MarkerId('from'), position: v));
+    emit(state.copyWith(
+      startPoint: v,
+      fromDestinationController: state.fromDestinationController
+        ..text = v.toString(),
+      markers: markers,
+    ));
+  }
 
-  void selectToDestination() => emit(state.copyWith(
-      toDestinationSelected: true, fromDestinationSelected: false));
-
-  void selectFromDestination() => emit(state.copyWith(
-      toDestinationSelected: false, fromDestinationSelected: true));
+  void addEndPoint(LatLng v) {
+    final markers = Set<Marker>.from(state.markers);
+    markers.removeWhere((element) => element.markerId.value == 'to');
+    markers.add(Marker(markerId: const MarkerId('to'), position: v));
+    emit(state.copyWith(
+        endPoint: v,
+        toDestinationController: state.toDestinationController
+          ..text = v.toString(),
+        markers: markers));
+  }
 
   void getPolyline() async {
     if (state.startPoint != null && state.endPoint != null) {
       routeEngineRepository.getPolyline(state.startPoint!, state.endPoint!);
     }
+  }
+
+  void updateToDestinationText(Prediction prediction) => emit(state.copyWith(
+      toDestinationController: state.toDestinationController
+        ..text = prediction.description ?? ''));
+
+  void updateFromDestinationText(Prediction prediction) {
+    final latLang = LatLng(double.tryParse(prediction.lat ?? '') ?? 0.0,
+        double.tryParse(prediction.lng ?? '') ?? 0.0);
+    final markers = Set<Marker>.from(state.markers);
+    markers.removeWhere((element) => element.markerId.value == 'from');
+    markers.add(Marker(markerId: const MarkerId('from'), position: latLang));
+    emit(state.copyWith(
+        startPoint: latLang,
+        fromDestinationController: state.fromDestinationController
+          ..text = prediction.description ?? ''));
   }
 }

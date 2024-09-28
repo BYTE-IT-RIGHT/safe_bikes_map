@@ -32,7 +32,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => RouteEngineCubit(
-          routeEngineRepository: getIt<IRouteEngineRepository>()),
+          routeEngineRepository: getIt<IRouteEngineRepository>())
+        ..init(),
       child: BlocBuilder<RouteEngineCubit, RouteEngineState>(
         builder: (context, state) => Scaffold(
           body: SafeArea(
@@ -45,9 +46,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     mapType: MapType.normal,
                     initialCameraPosition: _kGooglePlex,
                     polylines: polylines,
-                    markers: markers,
+                    markers: state.markers,
                     onTap: (argument) {
-                      if (state.fromDestinationSelected) {
+                      if (state.fromDestinationSelected ||
+                          (!state.fromDestinationSelected &&
+                              !state.toDestinationSelected)) {
+                        state.focusNodeFromDestination.requestFocus();
                         context
                             .read<RouteEngineCubit>()
                             .addStartPoint(argument);

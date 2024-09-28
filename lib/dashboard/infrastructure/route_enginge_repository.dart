@@ -24,7 +24,7 @@ class RouteEngingeRepository implements IRouteEngineRepository {
       'directions_options': {'units': 'kilometers'}
     };
 
-    final result = await http.post(Uri.parse('http://192.168.184.165:8002/route'), body: jsonEncode(body)).timeout(Duration(seconds: 3));
+    final result = await http.post(Uri.parse('http://165.227.244.153/route'), body: jsonEncode(body)).timeout(Duration(seconds: 3));
     if (result.statusCode == 200) {
       print(result.body);
     }

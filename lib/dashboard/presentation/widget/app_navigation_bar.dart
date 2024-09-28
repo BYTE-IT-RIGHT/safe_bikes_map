@@ -30,28 +30,34 @@ class AppNavigationBar extends StatelessWidget {
     return BlocBuilder<RouteEngineCubit, RouteEngineState>(
       builder: (context, state) => Column(children: [
         SelectLocation(
+            controller: state.fromDestinationController,
             isSelected: state.fromDestinationSelected,
             text: state.startPoint?.toString(),
+            focusNode: state.focusNodeFromDestination,
             defaultText: 'Skąd jedziemy...',
             color: Colors.blue,
             prefix: _buildPrefixRow(
                 firstIcon: Icons.arrow_forward,
                 secondIcon: Icons.circle,
                 color: Colors.blue),
-            onTap: () =>
-                context.read<RouteEngineCubit>().selectFromDestination()),
+            onTap: (prediction) => context
+                .read<RouteEngineCubit>()
+                .updateFromDestinationText(prediction)),
         const SizedBox(height: 8),
         SelectLocation(
-          isSelected: state.toDestinationSelected,
-          text: state.endPoint?.toString(),
-          defaultText: 'Dokąd jedziemy...',
-          color: Colors.green,
-          prefix: _buildPrefixRow(
-              firstIcon: Icons.circle,
-              secondIcon: Icons.arrow_back,
-              color: Colors.green),
-          onTap: () => context.read<RouteEngineCubit>().selectToDestination(),
-        ),
+            controller: state.toDestinationController,
+            isSelected: state.toDestinationSelected,
+            text: state.endPoint?.toString(),
+            focusNode: state.focusNodeToDestination,
+            defaultText: 'Dokąd jedziemy...',
+            color: Colors.green,
+            prefix: _buildPrefixRow(
+                firstIcon: Icons.circle,
+                secondIcon: Icons.arrow_back,
+                color: Colors.green),
+            onTap: (prediction) => context
+                .read<RouteEngineCubit>()
+                .updateToDestinationText(prediction)),
       ]),
     );
   }

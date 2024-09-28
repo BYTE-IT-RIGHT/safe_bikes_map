@@ -3,8 +3,12 @@ part of 'route_engine_cubit.dart';
 @freezed
 class RouteEngineState with _$RouteEngineState {
   const factory RouteEngineState({
+    required TextEditingController toDestinationController,
+    required TextEditingController fromDestinationController,
+    required FocusNode focusNodeToDestination,
+    required FocusNode focusNodeFromDestination,
+    @Default(false) bool fromDestinationSelected,
     @Default(false) bool toDestinationSelected,
-    @Default(true) bool fromDestinationSelected,
     LatLng? startPoint,
     LatLng? endPoint,
     @Default({}) Set<Marker> markers,
