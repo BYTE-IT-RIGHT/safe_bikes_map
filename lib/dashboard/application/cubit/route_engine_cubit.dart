@@ -12,9 +12,15 @@ class RouteEngineCubit extends Cubit<RouteEngineState> {
     required this.routeEngineRepository,
   }) : super(const RouteEngineState());
 
-  void addStartPoint(LatLng v) => state.copyWith(startPoint: v);
+  void addStartPoint(LatLng v) => emit(state.copyWith(startPoint: v));
 
-  void addEndPoint(LatLng v) => state.copyWith(endPoint: v);
+  void addEndPoint(LatLng v) => emit(state.copyWith(endPoint: v));
+
+  void selectToDestination() => emit(state.copyWith(
+      toDestinationSelected: true, fromDestinationSelected: false));
+
+  void selectFromDestination() => emit(state.copyWith(
+      toDestinationSelected: false, fromDestinationSelected: true));
 
   void getPolyline() async {
     if (state.startPoint != null && state.endPoint != null) {

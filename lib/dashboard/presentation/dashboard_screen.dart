@@ -6,7 +6,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:safe_bikes_map/dashboard/application/cubit/route_engine_cubit.dart';
 import 'package:safe_bikes_map/dashboard/domain/i_route_engine_repository.dart';
-import 'package:safe_bikes_map/dashboard/presentation/widget/select_location.dart';
+import 'package:safe_bikes_map/dashboard/presentation/widget/app_navigation_bar.dart';
 import 'package:safe_bikes_map/di_module.dart';
 
 @RoutePage()
@@ -22,8 +22,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
       Completer<GoogleMapController>();
   final Set<Marker> markers = {};
   final Set<Polyline> polylines = {};
-  bool _fromDestinationClicked = false;
-  bool _toDestinationClicked = false;
 
   static const CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(37.42796133580664, -122.085749655962),
@@ -40,59 +38,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
           body: SafeArea(
             child: Column(
               children: [
-                Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Column(children: [
-                    SelectLocation(
-                      isSelected: _fromDestinationClicked,
-                      text: null,
-                      defaultText: 'Skąd jedziemy...',
-                      onTap: () => setState(() {
-                        _toDestinationClicked = false;
-                        _fromDestinationClicked = true;
-                      }),
-                    ),
-                    SizedBox(height: 8),
-                    SelectLocation(
-                      isSelected: _toDestinationClicked,
-                      text: 'Częstochowa',
-                      defaultText: 'Dokąd jedziemy...',
-                      onTap: () => setState(() {
-                        _toDestinationClicked = true;
-                        _fromDestinationClicked = false;
-                      }),
-                    ),
-                  ]),
-                ),
-
-                // Padding(
-                //   padding: const EdgeInsets.all(8.0),
-                //   child: Container(
-                //     decoration: BoxDecoration(
-                //         border: Border.all(
-                //       color: Colors.black,
-                //     )),
-                //     child: Row(
-                //       children: [
-                //         Expanded(child: Text(_firstPoint?.toString() ?? '....')),
-                //       ],
-                //     ),
-                //   ),
-                // ),
-                // Padding(
-                //   padding: const EdgeInsets.all(8.0),
-                //   child: Container(
-                //     decoration: BoxDecoration(
-                //         border: Border.all(
-                //       color: Colors.black,
-                //     )),
-                //     child: Row(
-                //       children: [
-                //         Expanded(child: Text(_secondPoint?.toString() ?? '....')),
-                //       ],
-                //     ),
-                //   ),
-                // ),
+                const Padding(
+                    padding: EdgeInsets.all(8.0), child: AppNavigationBar()),
                 Expanded(
                   child: GoogleMap(
                     mapType: MapType.normal,
@@ -100,6 +47,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     polylines: polylines,
                     markers: markers,
                     onTap: (argument) {
+                      if (state.fromDestinationSelected) {
+                        context
+                            .read<RouteEngineCubit>()
+                            .addStartPoint(argument);
+                      }
+                      if (state.toDestinationSelected) {
+                        context.read<RouteEngineCubit>().addEndPoint(argument);
+                      }
                       // if (_firstPoint == null) {
                       //   setState(() {
                       //     markers.add(Marker(

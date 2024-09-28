@@ -5,12 +5,16 @@ class SelectLocation extends StatelessWidget {
   final String? text;
   final String defaultText;
   final Function onTap;
+  final Widget prefix;
+  final Color color;
   const SelectLocation({
     super.key,
     required this.isSelected,
     required this.text,
     required this.defaultText,
     required this.onTap,
+    required this.prefix,
+    required this.color
   });
 
   @override
@@ -21,7 +25,7 @@ class SelectLocation extends StatelessWidget {
         Container(
           decoration: BoxDecoration(
               border: Border.all(
-                  color: isSelected ? Colors.blue : Colors.black,
+                  color: isSelected ? color : Colors.black,
                   width: isSelected ? 2 : 1),
               borderRadius: BorderRadius.circular(8)),
           child: Padding(
@@ -29,10 +33,16 @@ class SelectLocation extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  text ?? defaultText,
-                  style: TextStyle(
-                      color: Colors.black.withOpacity(text == null ? 0.5 : 1)),
+                prefix,
+                Expanded(
+                  child: Text(
+                    text ?? defaultText,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        color:
+                            Colors.black.withOpacity(text == null ? 0.5 : 1)),
+                  ),
                 ),
                 AnimatedSwitcher(
                   duration: const Duration(milliseconds: 300),

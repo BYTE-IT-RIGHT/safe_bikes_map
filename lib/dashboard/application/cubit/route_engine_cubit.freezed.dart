@@ -16,6 +16,8 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$RouteEngineState {
+  bool get toDestinationSelected => throw _privateConstructorUsedError;
+  bool get fromDestinationSelected => throw _privateConstructorUsedError;
   LatLng? get startPoint => throw _privateConstructorUsedError;
   LatLng? get endPoint => throw _privateConstructorUsedError;
 
@@ -32,7 +34,11 @@ abstract class $RouteEngineStateCopyWith<$Res> {
           RouteEngineState value, $Res Function(RouteEngineState) then) =
       _$RouteEngineStateCopyWithImpl<$Res, RouteEngineState>;
   @useResult
-  $Res call({LatLng? startPoint, LatLng? endPoint});
+  $Res call(
+      {bool toDestinationSelected,
+      bool fromDestinationSelected,
+      LatLng? startPoint,
+      LatLng? endPoint});
 }
 
 /// @nodoc
@@ -50,10 +56,20 @@ class _$RouteEngineStateCopyWithImpl<$Res, $Val extends RouteEngineState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? toDestinationSelected = null,
+    Object? fromDestinationSelected = null,
     Object? startPoint = freezed,
     Object? endPoint = freezed,
   }) {
     return _then(_value.copyWith(
+      toDestinationSelected: null == toDestinationSelected
+          ? _value.toDestinationSelected
+          : toDestinationSelected // ignore: cast_nullable_to_non_nullable
+              as bool,
+      fromDestinationSelected: null == fromDestinationSelected
+          ? _value.fromDestinationSelected
+          : fromDestinationSelected // ignore: cast_nullable_to_non_nullable
+              as bool,
       startPoint: freezed == startPoint
           ? _value.startPoint
           : startPoint // ignore: cast_nullable_to_non_nullable
@@ -74,7 +90,11 @@ abstract class _$$RouteEngineStateImplCopyWith<$Res>
       __$$RouteEngineStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({LatLng? startPoint, LatLng? endPoint});
+  $Res call(
+      {bool toDestinationSelected,
+      bool fromDestinationSelected,
+      LatLng? startPoint,
+      LatLng? endPoint});
 }
 
 /// @nodoc
@@ -90,10 +110,20 @@ class __$$RouteEngineStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? toDestinationSelected = null,
+    Object? fromDestinationSelected = null,
     Object? startPoint = freezed,
     Object? endPoint = freezed,
   }) {
     return _then(_$RouteEngineStateImpl(
+      toDestinationSelected: null == toDestinationSelected
+          ? _value.toDestinationSelected
+          : toDestinationSelected // ignore: cast_nullable_to_non_nullable
+              as bool,
+      fromDestinationSelected: null == fromDestinationSelected
+          ? _value.fromDestinationSelected
+          : fromDestinationSelected // ignore: cast_nullable_to_non_nullable
+              as bool,
       startPoint: freezed == startPoint
           ? _value.startPoint
           : startPoint // ignore: cast_nullable_to_non_nullable
@@ -109,8 +139,18 @@ class __$$RouteEngineStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$RouteEngineStateImpl implements _RouteEngineState {
-  const _$RouteEngineStateImpl({this.startPoint, this.endPoint});
+  const _$RouteEngineStateImpl(
+      {this.toDestinationSelected = false,
+      this.fromDestinationSelected = false,
+      this.startPoint,
+      this.endPoint});
 
+  @override
+  @JsonKey()
+  final bool toDestinationSelected;
+  @override
+  @JsonKey()
+  final bool fromDestinationSelected;
   @override
   final LatLng? startPoint;
   @override
@@ -118,7 +158,7 @@ class _$RouteEngineStateImpl implements _RouteEngineState {
 
   @override
   String toString() {
-    return 'RouteEngineState(startPoint: $startPoint, endPoint: $endPoint)';
+    return 'RouteEngineState(toDestinationSelected: $toDestinationSelected, fromDestinationSelected: $fromDestinationSelected, startPoint: $startPoint, endPoint: $endPoint)';
   }
 
   @override
@@ -126,6 +166,11 @@ class _$RouteEngineStateImpl implements _RouteEngineState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$RouteEngineStateImpl &&
+            (identical(other.toDestinationSelected, toDestinationSelected) ||
+                other.toDestinationSelected == toDestinationSelected) &&
+            (identical(
+                    other.fromDestinationSelected, fromDestinationSelected) ||
+                other.fromDestinationSelected == fromDestinationSelected) &&
             (identical(other.startPoint, startPoint) ||
                 other.startPoint == startPoint) &&
             (identical(other.endPoint, endPoint) ||
@@ -133,7 +178,8 @@ class _$RouteEngineStateImpl implements _RouteEngineState {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, startPoint, endPoint);
+  int get hashCode => Object.hash(runtimeType, toDestinationSelected,
+      fromDestinationSelected, startPoint, endPoint);
 
   /// Create a copy of RouteEngineState
   /// with the given fields replaced by the non-null parameter values.
@@ -147,9 +193,15 @@ class _$RouteEngineStateImpl implements _RouteEngineState {
 
 abstract class _RouteEngineState implements RouteEngineState {
   const factory _RouteEngineState(
-      {final LatLng? startPoint,
+      {final bool toDestinationSelected,
+      final bool fromDestinationSelected,
+      final LatLng? startPoint,
       final LatLng? endPoint}) = _$RouteEngineStateImpl;
 
+  @override
+  bool get toDestinationSelected;
+  @override
+  bool get fromDestinationSelected;
   @override
   LatLng? get startPoint;
   @override
