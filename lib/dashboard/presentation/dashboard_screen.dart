@@ -60,7 +60,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: AppNavigationBar(
-                        onMyLocationClick: () {},
+                        onMyLocationClick: () => context
+                            .read<RouteEngineCubit>()
+                            .useUserLocalization(),
                       )),
                   Expanded(
                     child: GoogleMap(
@@ -73,6 +75,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         if (routeEngingeState.fromDestinationSelected ||
                             (!routeEngingeState.fromDestinationSelected &&
                                 !routeEngingeState.toDestinationSelected)) {
+                          if (routeEngingeState.useUserLocalization) {
+                            return;
+                          }
                           routeEngingeState.focusNodeFromDestination
                               .requestFocus();
                           context

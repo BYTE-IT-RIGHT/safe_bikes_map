@@ -111,4 +111,13 @@ class RouteEngineCubit extends Cubit<RouteEngineState> {
         icon: BitmapDescriptor.bytes(uint8list)));
     emit(state.copyWith(markers: markers));
   }
+
+  void useUserLocalization() {
+    if (state.startPoint != null) {
+      final markers = Set<Marker>.from(state.markers);
+      markers.removeWhere((element) => element.markerId.value == 'from');
+      emit(state.copyWith(startPoint: null, markers: markers));
+    }
+    emit(state.copyWith(useUserLocalization: !state.useUserLocalization));
+  }
 }

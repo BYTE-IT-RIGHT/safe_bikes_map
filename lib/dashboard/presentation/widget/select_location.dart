@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_places_flutter/google_places_flutter.dart';
 import 'package:google_places_flutter/model/prediction.dart';
 import 'package:safe_bikes_map/constants/Secrets.dart';
+import 'package:safe_bikes_map/dashboard/application/route_enginge_cubit/route_engine_cubit.dart';
 
 class SelectLocation extends StatefulWidget {
   final bool isSelected;
@@ -63,10 +65,17 @@ class _SelectLocationState extends State<SelectLocation> {
                         borderRadius: BorderRadius.circular(8),
                         borderSide: BorderSide(color: widget.color, width: 2)),
                     suffixIcon: widget.enableMyLocation
-                        ? RawMaterialButton(
-                            shape: const CircleBorder(),
-                            onPressed: () => widget.onMyLocationClick!(),
-                            child: const Icon(Icons.my_location_outlined),
+                        ? BlocBuilder<RouteEngineCubit, RouteEngineState>(
+                            builder: (context, state) => RawMaterialButton(
+                              shape: const CircleBorder(),
+                              onPressed: () => widget.onMyLocationClick!(),
+                              child: Icon(
+                                Icons.my_location_outlined,
+                                color: state.useUserLocalization
+                                    ? Colors.blue
+                                    : Colors.black.withOpacity(0.4),
+                              ),
+                            ),
                           )
                         : null)),
           ),
