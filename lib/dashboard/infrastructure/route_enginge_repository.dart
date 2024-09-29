@@ -9,12 +9,13 @@ import 'package:safe_bikes_map/dashboard/domain/i_route_engine_repository.dart';
 import 'package:http/http.dart' as http;
 import 'dart:math' as math;
 
+import 'package:safe_bikes_map/settings/domain/Settings.dart';
+
 class RouteEngingeRepository implements IRouteEngineRepository {
   @override
   Future<Either<Failure, Polyline>> getPolyline(
-    LatLng startPoint,
-    LatLng endPoint,
-  ) async {
+      LatLng startPoint, LatLng endPoint,
+      {required Settings settings}) async {
     try {
       final body = {
         'locations': [
@@ -30,8 +31,15 @@ class RouteEngingeRepository implements IRouteEngineRepository {
           }
         ],
         'costing': 'bicycle',
-        'directions_options': {'units': 'kilometers', 'use_roads':0.01}
+        'directions_options': {
+          'units': 'kilometers',
+          'use_roads': settings.avoidHighTraficRoads.getApiValue(false),
+          'use_hills': settings.avoidHills.getApiValue(false),
+          'avoid_bad_surfaces': settings.avoidBadSurface.getApiValue(true),
+          'bicycle_type': settings.bikeType.getBikeByType(),
+        }
       };
+
       final response = await http.post(
           Uri.parse('http://165.227.244.153/route'),
           body: jsonEncode(body));

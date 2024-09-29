@@ -103,7 +103,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
             floatingActionButton: FloatingActionButton(
               onPressed: () => showModalBottomSheet(
                 context: context,
-                builder: (context) => const SettingsBottomSheet(),
+                builder: (ctx) => SettingsBottomSheet(
+                  cubit: context.read<RouteEngineCubit>(),
+                ),
               ),
               child: const Icon(Icons.settings),
             ),

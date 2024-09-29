@@ -6,6 +6,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_places_flutter/model/prediction.dart';
 import 'package:safe_bikes_map/dashboard/domain/i_route_engine_repository.dart';
+import 'package:safe_bikes_map/settings/domain/Settings.dart';
 
 part 'route_engine_state.dart';
 part 'route_engine_cubit.freezed.dart';
@@ -18,7 +19,13 @@ class RouteEngineCubit extends Cubit<RouteEngineState> {
             fromDestinationController: TextEditingController(),
             toDestinationController: TextEditingController(),
             focusNodeFromDestination: FocusNode(),
-            focusNodeToDestination: FocusNode()));
+            focusNodeToDestination: FocusNode(),
+            settings: const Settings(
+              bikeType: 1,
+              avoidBadSurface: SettingOption.medium,
+              avoidHighTraficRoads: SettingOption.medium,
+              avoidHills: SettingOption.medium,
+            )));
 
   void init() {
     state.focusNodeFromDestination.addListener(() {
@@ -35,6 +42,11 @@ class RouteEngineCubit extends Cubit<RouteEngineState> {
             toDestinationSelected: true, fromDestinationSelected: false));
       }
     });
+  }
+
+  void updateSettings(Settings newSettings) async {
+    emit(state.copyWith(settings: newSettings));
+    await getPolyline();
   }
 
   void addStartPoint(LatLng v, {bool useUserLocalization = false}) async {
@@ -80,7 +92,8 @@ class RouteEngineCubit extends Cubit<RouteEngineState> {
     }
     if (state.startPoint != null && state.endPoint != null) {
       final result = await routeEngineRepository.getPolyline(
-          state.startPoint!, state.endPoint!);
+          state.startPoint!, state.endPoint!,
+          settings: state.settings);
       result.fold(
         (l) {},
         (r) => emit(state.copyWith(polylines: {r})),
