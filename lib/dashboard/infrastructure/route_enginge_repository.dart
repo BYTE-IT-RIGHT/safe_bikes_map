@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
+import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:safe_bikes_map/common/domain/failure.dart';
 import 'package:safe_bikes_map/dashboard/domain/i_route_engine_repository.dart';
@@ -37,8 +38,12 @@ class RouteEngingeRepository implements IRouteEngineRepository {
       if (response.statusCode == 200) {
         final pointLatLng = _decodePolyline(jsonDecode(response.body));
         final latLeng = pointLatLng.map((e) => LatLng(e[0], e[1])).toList();
-        return right(
-            Polyline(polylineId: const PolylineId('Route'), points: latLeng));
+        return right(Polyline(
+          polylineId: const PolylineId('Route'),
+          points: latLeng,
+          width: 4,
+          color: Colors.blue,
+        ));
       } else {
         log('error while getting polyLine status code: ${response.statusCode}');
         return left(const Failure.unexpected());

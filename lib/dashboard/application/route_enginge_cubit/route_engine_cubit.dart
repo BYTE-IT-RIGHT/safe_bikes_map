@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_places_flutter/model/prediction.dart';
 import 'package:safe_bikes_map/dashboard/domain/i_route_engine_repository.dart';
@@ -89,5 +90,15 @@ class RouteEngineCubit extends Cubit<RouteEngineState> {
         startPoint: latLang,
         fromDestinationController: state.fromDestinationController
           ..text = prediction.description ?? ''));
+  }
+
+  void updateUserPosition(Position newPosition) {
+    final markers = Set<Marker>.from(state.markers);
+    markers.removeWhere((element) => element.markerId.value == 'user_position');
+    markers.add(Marker(
+        markerId: const MarkerId('user_position'),
+        position: LatLng(newPosition.latitude, newPosition.longitude)));
+        print(markers);
+    emit(state.copyWith(markers: markers));
   }
 }
