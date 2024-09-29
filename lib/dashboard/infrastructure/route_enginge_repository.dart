@@ -7,13 +7,14 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:safe_bikes_map/common/domain/failure.dart';
 import 'package:safe_bikes_map/dashboard/domain/i_route_engine_repository.dart';
 import 'package:http/http.dart' as http;
+import 'package:safe_bikes_map/dashboard/domain/polyline_response.dart';
 import 'dart:math' as math;
 
 import 'package:safe_bikes_map/settings/domain/Settings.dart';
 
 class RouteEngingeRepository implements IRouteEngineRepository {
   @override
-  Future<Either<Failure, Polyline>> getPolyline(
+  Future<Either<Failure, PolylineResponse>> getPolyline(
       LatLng startPoint, LatLng endPoint,
       {required Settings settings}) async {
     try {
@@ -48,14 +49,20 @@ class RouteEngingeRepository implements IRouteEngineRepository {
           Uri.parse('http://165.227.244.153/route'),
           body: jsonEncode(body));
       if (response.statusCode == 200) {
-        final pointLatLng = _decodePolyline(jsonDecode(response.body));
+        final decodedJson = jsonDecode(response.body);
+        final pointLatLng = _decodePolyline(decodedJson);
         final latLeng = pointLatLng.map((e) => LatLng(e[0], e[1])).toList();
-        return right(Polyline(
-          polylineId: const PolylineId('Route'),
-          points: latLeng,
-          width: 4,
-          color: Colors.blue,
-        ));
+        log(response.body);
+        final time = decodedJson['trip']['summary']['time'];
+        final normalizedTimeInSeconds = (time as double).toInt();
+        return right(PolylineResponse(
+            arivalTime: normalizedTimeInSeconds,
+            polyline: Polyline(
+              polylineId: const PolylineId('Route'),
+              points: latLeng,
+              width: 5,
+              color: Colors.blue,
+            )));
       } else {
         log('error while getting polyLine status code: ${response.statusCode}');
         return left(const Failure.unexpected());

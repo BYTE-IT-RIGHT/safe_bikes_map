@@ -16,37 +16,39 @@ class SettingsBottomSheet extends StatelessWidget {
         builder: (context, state) => Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 32),
           child: Center(
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  BikeSelection(
-                      alreadySelected: state.settings.bikeType,
-                      onSelect: (v) => context
-                          .read<RouteEngineCubit>()
-                          .updateSettings(state.settings.copyWith(bikeType: v)),
-                      text: 'Rodzaj roweru'),
-                  SettingsRow(
-                      alreadySelected: state.settings.avoidBadSurface,
-                      onSelect: (v) => context
-                          .read<RouteEngineCubit>()
-                          .updateSettings(
-                              state.settings.copyWith(avoidBadSurface: v)),
-                      text: 'Unikaj złych nawierzchni'),
-                  SettingsRow(
-                      alreadySelected: state.settings.avoidHighTraficRoads,
-                      onSelect: (v) => context
-                          .read<RouteEngineCubit>()
-                          .updateSettings(
-                              state.settings.copyWith(avoidHighTraficRoads: v)),
-                      text: 'unikaj ruchliwych dróg '),
-                  SettingsRow(
-                      alreadySelected: state.settings.avoidHills,
-                      onSelect: (v) => context
-                          .read<RouteEngineCubit>()
-                          .updateSettings(
-                              state.settings.copyWith(avoidHills: v)),
-                      text: 'Unikaj wzniesień'),
-                ]),
+            child: SingleChildScrollView(
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    BikeSelection(
+                        alreadySelected: state.settings.bikeType,
+                        onSelect: (v) => context
+                            .read<RouteEngineCubit>()
+                            .updateSettings(state.settings.copyWith(bikeType: v)),
+                        text: 'Rodzaj roweru'),
+                    SettingsRow(
+                        alreadySelected: state.settings.avoidBadSurface,
+                        onSelect: (v) => context
+                            .read<RouteEngineCubit>()
+                            .updateSettings(
+                                state.settings.copyWith(avoidBadSurface: v)),
+                        text: 'Unikaj złych nawierzchni'),
+                    SettingsRow(
+                        alreadySelected: state.settings.avoidHighTraficRoads,
+                        onSelect: (v) => context
+                            .read<RouteEngineCubit>()
+                            .updateSettings(
+                                state.settings.copyWith(avoidHighTraficRoads: v)),
+                        text: 'unikaj ruchliwych dróg '),
+                    SettingsRow(
+                        alreadySelected: state.settings.avoidHills,
+                        onSelect: (v) => context
+                            .read<RouteEngineCubit>()
+                            .updateSettings(
+                                state.settings.copyWith(avoidHills: v)),
+                        text: 'Unikaj wzniesień'),
+                  ]),
+            ),
           ),
         ),
       ),
