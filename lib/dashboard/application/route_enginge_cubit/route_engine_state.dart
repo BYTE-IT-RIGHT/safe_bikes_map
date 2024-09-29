@@ -9,6 +9,7 @@ class RouteEngineState with _$RouteEngineState {
     required FocusNode focusNodeFromDestination,
     required Settings settings,
     int? estimatedArivalTime,
+    String? nextManuver,
     @Default(false) bool navigationEnabled,
     @Default(false) bool useUserLocalization,
     @Default(false) bool fromDestinationSelected,

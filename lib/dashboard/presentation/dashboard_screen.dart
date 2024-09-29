@@ -9,7 +9,7 @@ import 'package:safe_bikes_map/dashboard/application/route_enginge_cubit/route_e
 import 'package:safe_bikes_map/dashboard/domain/i_route_engine_repository.dart';
 import 'package:safe_bikes_map/dashboard/presentation/widget/app_navigation_bar.dart';
 import 'package:safe_bikes_map/dashboard/presentation/widget/estimations_bar.dart';
-import 'package:safe_bikes_map/dashboard/presentation/widget/settings_bottom_sheet.dart';
+import 'package:safe_bikes_map/settings/presentation/settings_bottom_sheet.dart';
 import 'package:safe_bikes_map/di_module.dart';
 import 'package:safe_bikes_map/geolocalization/domain/i_geolocalization_repository.dart';
 
@@ -30,6 +30,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
     zoom: 10,
   );
 
+  String convertSecondsToHoursAndMinutes(int seconds) {
+    int hours = seconds ~/ 3600;
+    int minutes = (seconds % 3600) ~/ 60;
+
+    return "${hours == 0 ? '' : '${hours}g'} ${minutes}min";
+  }
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -44,7 +51,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       getIt<IGeolocalizationRepository>())
                 ..init())
         ],
-        child: BlocBuilder<RouteEngineCubit, RouteEngineState>(
+        child: BlocConsumer<RouteEngineCubit, RouteEngineState>(
+          listener: (context, state) async {
+            if (state.navigationEnabled) {
+              final controller = await _controller.future;
+              controller.animateCamera(
+                  CameraUpdate.newLatLngZoom(state.startPoint!, 15));
+            }
+          },
           builder: (context, routeEngingeState) =>
               BlocListener<GeolocalizationCubit, GeolocalizationState>(
             listener: (context, geolocaliaztionState) {
@@ -81,6 +95,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         markers: routeEngingeState.markers,
                         myLocationButtonEnabled: false,
                         onTap: (argument) {
+                          if (routeEngingeState.navigationEnabled) {
+                            return;
+                          }
                           if (routeEngingeState.fromDestinationSelected ||
                               (!routeEngingeState.fromDestinationSelected &&
                                   !routeEngingeState.toDestinationSelected)) {
@@ -112,26 +129,54 @@ class _DashboardScreenState extends State<DashboardScreen> {
               floatingActionButton: Padding(
                 padding: const EdgeInsets.all(16),
                 child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const SizedBox(width: 50),
+                    routeEngingeState.navigationEnabled
+                        ? Expanded(
+                            child: Container(
+                              height: 56,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(16),
+                                color: Colors.blue,
+                              ),
+                              child: Center(
+                                child: Text(
+                                    convertSecondsToHoursAndMinutes(
+                                        routeEngingeState.estimatedArivalTime ??
+                                            0),
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 26,
+                                        color: Colors.white)),
+                              ),
+                            ),
+                          )
+                        : const SizedBox(width: 50),
                     (routeEngingeState.startPoint != null &&
                             routeEngingeState.endPoint != null)
-                        ? FloatingActionButton(
-                            backgroundColor: routeEngingeState.navigationEnabled
-                                ? Colors.red
-                                : Colors.blue,
-                            foregroundColor: Colors.white,
-                            onPressed: () => context
-                                .read<RouteEngineCubit>()
-                                .enableNavigation(),
-                            child: Icon(routeEngingeState.navigationEnabled
-                                ? Icons.close
-                                : Icons.navigation_outlined),
+                        ? Padding(
+                            padding: routeEngingeState.navigationEnabled
+                                ? const EdgeInsets.symmetric(horizontal: 16)
+                                : EdgeInsets.zero,
+                            child: FloatingActionButton(
+                              backgroundColor:
+                                  routeEngingeState.navigationEnabled
+                                      ? Colors.red
+                                      : Colors.blue,
+                              foregroundColor: Colors.white,
+                              onPressed: () => context
+                                  .read<RouteEngineCubit>()
+                                  .enableNavigation(),
+                              child: Icon(routeEngingeState.navigationEnabled
+                                  ? Icons.close
+                                  : Icons.navigation_outlined),
+                            ),
                           )
                         : const SizedBox(width: 50),
                     FloatingActionButton(
                       onPressed: () => showModalBottomSheet(
+                        
                         context: context,
                         builder: (ctx) => SettingsBottomSheet(
                           cubit: context.read<RouteEngineCubit>(),

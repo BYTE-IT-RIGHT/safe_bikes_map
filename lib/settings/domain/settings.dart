@@ -36,12 +36,14 @@ class Settings {
   final SettingOption avoidBadSurface;
   final SettingOption avoidHighTraficRoads;
   final SettingOption avoidHills;
+  final bool fastestRoute;
 
   const Settings({
     required this.bikeType,
     required this.avoidBadSurface,
     required this.avoidHighTraficRoads,
     required this.avoidHills,
+    required this.fastestRoute,
   });
 
   Settings copyWith({
@@ -49,11 +51,13 @@ class Settings {
     SettingOption? avoidBadSurface,
     SettingOption? avoidHighTraficRoads,
     SettingOption? avoidHills,
+    bool? fastestRoute,
   }) =>
       Settings(
         bikeType: bikeType ?? this.bikeType,
         avoidBadSurface: avoidBadSurface ?? this.avoidBadSurface,
         avoidHighTraficRoads: avoidHighTraficRoads ?? this.avoidHighTraficRoads,
         avoidHills: avoidHills ?? this.avoidHills,
+        fastestRoute: fastestRoute ?? this.fastestRoute,
       );
 }

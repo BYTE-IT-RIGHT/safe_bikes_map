@@ -21,11 +21,11 @@ class RouteEngineCubit extends Cubit<RouteEngineState> {
             focusNodeFromDestination: FocusNode(),
             focusNodeToDestination: FocusNode(),
             settings: const Settings(
-              bikeType: 1,
-              avoidBadSurface: SettingOption.medium,
-              avoidHighTraficRoads: SettingOption.medium,
-              avoidHills: SettingOption.medium,
-            )));
+                bikeType: 1,
+                avoidBadSurface: SettingOption.medium,
+                avoidHighTraficRoads: SettingOption.medium,
+                avoidHills: SettingOption.medium,
+                fastestRoute: false)));
 
   void init() {
     state.focusNodeFromDestination.addListener(() {
@@ -44,7 +44,8 @@ class RouteEngineCubit extends Cubit<RouteEngineState> {
     });
   }
 
-  void enableNavigation()=> emit(state.copyWith(navigationEnabled: !state.navigationEnabled));
+  void enableNavigation() =>
+      emit(state.copyWith(navigationEnabled: !state.navigationEnabled));
 
   void updateSettings(Settings newSettings) async {
     emit(state.copyWith(settings: newSettings));
@@ -109,8 +110,9 @@ class RouteEngineCubit extends Cubit<RouteEngineState> {
       result.fold(
         (l) {},
         (r) => emit(state.copyWith(
-          estimatedArivalTime: r.arivalTime,
-          polylines: {r.polyline})),
+            nextManuver: r.nextManuver,
+            estimatedArivalTime: r.arivalTime,
+            polylines: {r.polyline})),
       );
     }
   }

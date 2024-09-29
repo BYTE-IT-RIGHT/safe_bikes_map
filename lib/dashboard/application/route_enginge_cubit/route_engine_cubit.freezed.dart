@@ -24,6 +24,7 @@ mixin _$RouteEngineState {
   FocusNode get focusNodeFromDestination => throw _privateConstructorUsedError;
   Settings get settings => throw _privateConstructorUsedError;
   int? get estimatedArivalTime => throw _privateConstructorUsedError;
+  String? get nextManuver => throw _privateConstructorUsedError;
   bool get navigationEnabled => throw _privateConstructorUsedError;
   bool get useUserLocalization => throw _privateConstructorUsedError;
   bool get fromDestinationSelected => throw _privateConstructorUsedError;
@@ -53,6 +54,7 @@ abstract class $RouteEngineStateCopyWith<$Res> {
       FocusNode focusNodeFromDestination,
       Settings settings,
       int? estimatedArivalTime,
+      String? nextManuver,
       bool navigationEnabled,
       bool useUserLocalization,
       bool fromDestinationSelected,
@@ -84,6 +86,7 @@ class _$RouteEngineStateCopyWithImpl<$Res, $Val extends RouteEngineState>
     Object? focusNodeFromDestination = null,
     Object? settings = freezed,
     Object? estimatedArivalTime = freezed,
+    Object? nextManuver = freezed,
     Object? navigationEnabled = null,
     Object? useUserLocalization = null,
     Object? fromDestinationSelected = null,
@@ -118,6 +121,10 @@ class _$RouteEngineStateCopyWithImpl<$Res, $Val extends RouteEngineState>
           ? _value.estimatedArivalTime
           : estimatedArivalTime // ignore: cast_nullable_to_non_nullable
               as int?,
+      nextManuver: freezed == nextManuver
+          ? _value.nextManuver
+          : nextManuver // ignore: cast_nullable_to_non_nullable
+              as String?,
       navigationEnabled: null == navigationEnabled
           ? _value.navigationEnabled
           : navigationEnabled // ignore: cast_nullable_to_non_nullable
@@ -169,6 +176,7 @@ abstract class _$$RouteEngineStateImplCopyWith<$Res>
       FocusNode focusNodeFromDestination,
       Settings settings,
       int? estimatedArivalTime,
+      String? nextManuver,
       bool navigationEnabled,
       bool useUserLocalization,
       bool fromDestinationSelected,
@@ -198,6 +206,7 @@ class __$$RouteEngineStateImplCopyWithImpl<$Res>
     Object? focusNodeFromDestination = null,
     Object? settings = freezed,
     Object? estimatedArivalTime = freezed,
+    Object? nextManuver = freezed,
     Object? navigationEnabled = null,
     Object? useUserLocalization = null,
     Object? fromDestinationSelected = null,
@@ -232,6 +241,10 @@ class __$$RouteEngineStateImplCopyWithImpl<$Res>
           ? _value.estimatedArivalTime
           : estimatedArivalTime // ignore: cast_nullable_to_non_nullable
               as int?,
+      nextManuver: freezed == nextManuver
+          ? _value.nextManuver
+          : nextManuver // ignore: cast_nullable_to_non_nullable
+              as String?,
       navigationEnabled: null == navigationEnabled
           ? _value.navigationEnabled
           : navigationEnabled // ignore: cast_nullable_to_non_nullable
@@ -278,6 +291,7 @@ class _$RouteEngineStateImpl implements _RouteEngineState {
       required this.focusNodeFromDestination,
       required this.settings,
       this.estimatedArivalTime,
+      this.nextManuver,
       this.navigationEnabled = false,
       this.useUserLocalization = false,
       this.fromDestinationSelected = false,
@@ -301,6 +315,8 @@ class _$RouteEngineStateImpl implements _RouteEngineState {
   final Settings settings;
   @override
   final int? estimatedArivalTime;
+  @override
+  final String? nextManuver;
   @override
   @JsonKey()
   final bool navigationEnabled;
@@ -337,7 +353,7 @@ class _$RouteEngineStateImpl implements _RouteEngineState {
 
   @override
   String toString() {
-    return 'RouteEngineState(toDestinationController: $toDestinationController, fromDestinationController: $fromDestinationController, focusNodeToDestination: $focusNodeToDestination, focusNodeFromDestination: $focusNodeFromDestination, settings: $settings, estimatedArivalTime: $estimatedArivalTime, navigationEnabled: $navigationEnabled, useUserLocalization: $useUserLocalization, fromDestinationSelected: $fromDestinationSelected, toDestinationSelected: $toDestinationSelected, startPoint: $startPoint, endPoint: $endPoint, markers: $markers, polylines: $polylines)';
+    return 'RouteEngineState(toDestinationController: $toDestinationController, fromDestinationController: $fromDestinationController, focusNodeToDestination: $focusNodeToDestination, focusNodeFromDestination: $focusNodeFromDestination, settings: $settings, estimatedArivalTime: $estimatedArivalTime, nextManuver: $nextManuver, navigationEnabled: $navigationEnabled, useUserLocalization: $useUserLocalization, fromDestinationSelected: $fromDestinationSelected, toDestinationSelected: $toDestinationSelected, startPoint: $startPoint, endPoint: $endPoint, markers: $markers, polylines: $polylines)';
   }
 
   @override
@@ -359,6 +375,8 @@ class _$RouteEngineStateImpl implements _RouteEngineState {
             const DeepCollectionEquality().equals(other.settings, settings) &&
             (identical(other.estimatedArivalTime, estimatedArivalTime) ||
                 other.estimatedArivalTime == estimatedArivalTime) &&
+            (identical(other.nextManuver, nextManuver) ||
+                other.nextManuver == nextManuver) &&
             (identical(other.navigationEnabled, navigationEnabled) ||
                 other.navigationEnabled == navigationEnabled) &&
             (identical(other.useUserLocalization, useUserLocalization) ||
@@ -386,6 +404,7 @@ class _$RouteEngineStateImpl implements _RouteEngineState {
       focusNodeFromDestination,
       const DeepCollectionEquality().hash(settings),
       estimatedArivalTime,
+      nextManuver,
       navigationEnabled,
       useUserLocalization,
       fromDestinationSelected,
@@ -413,6 +432,7 @@ abstract class _RouteEngineState implements RouteEngineState {
       required final FocusNode focusNodeFromDestination,
       required final Settings settings,
       final int? estimatedArivalTime,
+      final String? nextManuver,
       final bool navigationEnabled,
       final bool useUserLocalization,
       final bool fromDestinationSelected,
@@ -434,6 +454,8 @@ abstract class _RouteEngineState implements RouteEngineState {
   Settings get settings;
   @override
   int? get estimatedArivalTime;
+  @override
+  String? get nextManuver;
   @override
   bool get navigationEnabled;
   @override

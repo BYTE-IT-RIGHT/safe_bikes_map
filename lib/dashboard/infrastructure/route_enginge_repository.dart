@@ -37,12 +37,14 @@ class RouteEngingeRepository implements IRouteEngineRepository {
         },
         'costing_options': {
           'bicycle': {
+            'shortest': settings.fastestRoute,
             'use_roads': settings.avoidHighTraficRoads.getApiValue(false),
             'use_hills': settings.avoidHills.getApiValue(false),
             'avoid_bad_surfaces': settings.avoidBadSurface.getApiValue(true),
             'bicycle_type': settings.bikeType.getBikeByType(),
           },
-        }
+        },
+        'language': 'pl-PL'
       };
 
       final response = await http.post(
@@ -53,8 +55,11 @@ class RouteEngingeRepository implements IRouteEngineRepository {
         final pointLatLng = _decodePolyline(decodedJson);
         final latLeng = pointLatLng.map((e) => LatLng(e[0], e[1])).toList();
         final time = decodedJson['trip']['summary']['time'];
+        final nextManuver =
+            decodedJson['trip']['legs'][0]['maneuvers'][0]['instruction'];
         final normalizedTimeInSeconds = (time as double).toInt();
         return right(PolylineResponse(
+            nextManuver: nextManuver,
             arivalTime: normalizedTimeInSeconds,
             polyline: Polyline(
               polylineId: const PolylineId('Route'),

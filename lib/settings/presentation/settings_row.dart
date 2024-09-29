@@ -21,8 +21,10 @@ class SettingsRow extends StatelessWidget {
       Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
         ElevatedButton(
             style: ElevatedButton.styleFrom(
-                backgroundColor: alreadySelected == SettingOption.none
-                    ? Colors.green
+                backgroundColor:
+                    alreadySelected == SettingOption.none ? Colors.green : null,
+                foregroundColor: alreadySelected == SettingOption.none
+                    ? Colors.white
                     : null),
             onPressed: () => onSelect(SettingOption.none),
             child: const Text('Nie')),
@@ -30,13 +32,18 @@ class SettingsRow extends StatelessWidget {
             style: ElevatedButton.styleFrom(
                 backgroundColor: alreadySelected == SettingOption.medium
                     ? Colors.green
+                    : null,
+                foregroundColor: alreadySelected == SettingOption.medium
+                    ? Colors.white
                     : null),
             onPressed: () => onSelect(SettingOption.medium),
             child: const Text('Delikatnie')),
         ElevatedButton(
             style: ElevatedButton.styleFrom(
-                backgroundColor: alreadySelected == SettingOption.high
-                    ? Colors.green
+                backgroundColor:
+                    alreadySelected == SettingOption.high ? Colors.green : null,
+                foregroundColor: alreadySelected == SettingOption.high
+                    ? Colors.white
                     : null),
             onPressed: () => onSelect(SettingOption.high),
             child: const Text('Unikaj'))

@@ -5,13 +5,6 @@ import 'package:safe_bikes_map/dashboard/application/route_enginge_cubit/route_e
 class EstimationsBar extends StatelessWidget {
   const EstimationsBar({super.key});
 
-  String convertSecondsToHoursAndMinutes(int seconds) {
-    int hours = seconds ~/ 3600;
-    int minutes = (seconds % 3600) ~/ 60;
-
-    return "${hours == 0 ? '' : '${hours}g'} ${minutes}m";
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<RouteEngineCubit, RouteEngineState>(
@@ -20,23 +13,21 @@ class EstimationsBar extends StatelessWidget {
           height: 138,
           child: Padding(
             padding: const EdgeInsets.all(16),
-            child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              Text.rich(
-                TextSpan(children: [
-                  const TextSpan(text: 'Czas do celu'),
-                  TextSpan(
-                      text: convertSecondsToHoursAndMinutes(
-                          state.estimatedArivalTime ?? 0),
-                      style: const TextStyle(
-                          fontWeight: FontWeight.w600, fontSize: 26)),
-                ]),
-                style: const TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.white,
-                ),
-              )
-            ]),
+            child: Center(
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    if (state.nextManuver != null)
+                      Flexible(
+                        child: Text(
+                          state.nextManuver.toString(),
+                          textAlign: TextAlign.center,
+                          style:
+                              const TextStyle(color: Colors.white, fontSize: 34),
+                        ),
+                      ),
+                  ]),
+            ),
           )),
     );
   }
