@@ -27,6 +27,7 @@ mixin _$RouteEngineState {
   LatLng? get startPoint => throw _privateConstructorUsedError;
   LatLng? get endPoint => throw _privateConstructorUsedError;
   Set<Marker> get markers => throw _privateConstructorUsedError;
+  Set<Polyline> get polylines => throw _privateConstructorUsedError;
 
   /// Create a copy of RouteEngineState
   /// with the given fields replaced by the non-null parameter values.
@@ -50,7 +51,8 @@ abstract class $RouteEngineStateCopyWith<$Res> {
       bool toDestinationSelected,
       LatLng? startPoint,
       LatLng? endPoint,
-      Set<Marker> markers});
+      Set<Marker> markers,
+      Set<Polyline> polylines});
 }
 
 /// @nodoc
@@ -77,6 +79,7 @@ class _$RouteEngineStateCopyWithImpl<$Res, $Val extends RouteEngineState>
     Object? startPoint = freezed,
     Object? endPoint = freezed,
     Object? markers = null,
+    Object? polylines = null,
   }) {
     return _then(_value.copyWith(
       toDestinationController: null == toDestinationController
@@ -115,6 +118,10 @@ class _$RouteEngineStateCopyWithImpl<$Res, $Val extends RouteEngineState>
           ? _value.markers
           : markers // ignore: cast_nullable_to_non_nullable
               as Set<Marker>,
+      polylines: null == polylines
+          ? _value.polylines
+          : polylines // ignore: cast_nullable_to_non_nullable
+              as Set<Polyline>,
     ) as $Val);
   }
 }
@@ -136,7 +143,8 @@ abstract class _$$RouteEngineStateImplCopyWith<$Res>
       bool toDestinationSelected,
       LatLng? startPoint,
       LatLng? endPoint,
-      Set<Marker> markers});
+      Set<Marker> markers,
+      Set<Polyline> polylines});
 }
 
 /// @nodoc
@@ -161,6 +169,7 @@ class __$$RouteEngineStateImplCopyWithImpl<$Res>
     Object? startPoint = freezed,
     Object? endPoint = freezed,
     Object? markers = null,
+    Object? polylines = null,
   }) {
     return _then(_$RouteEngineStateImpl(
       toDestinationController: null == toDestinationController
@@ -199,6 +208,10 @@ class __$$RouteEngineStateImplCopyWithImpl<$Res>
           ? _value._markers
           : markers // ignore: cast_nullable_to_non_nullable
               as Set<Marker>,
+      polylines: null == polylines
+          ? _value._polylines
+          : polylines // ignore: cast_nullable_to_non_nullable
+              as Set<Polyline>,
     ));
   }
 }
@@ -215,8 +228,10 @@ class _$RouteEngineStateImpl implements _RouteEngineState {
       this.toDestinationSelected = false,
       this.startPoint,
       this.endPoint,
-      final Set<Marker> markers = const {}})
-      : _markers = markers;
+      final Set<Marker> markers = const {},
+      final Set<Polyline> polylines = const {}})
+      : _markers = markers,
+        _polylines = polylines;
 
   @override
   final TextEditingController toDestinationController;
@@ -245,9 +260,18 @@ class _$RouteEngineStateImpl implements _RouteEngineState {
     return EqualUnmodifiableSetView(_markers);
   }
 
+  final Set<Polyline> _polylines;
+  @override
+  @JsonKey()
+  Set<Polyline> get polylines {
+    if (_polylines is EqualUnmodifiableSetView) return _polylines;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableSetView(_polylines);
+  }
+
   @override
   String toString() {
-    return 'RouteEngineState(toDestinationController: $toDestinationController, fromDestinationController: $fromDestinationController, focusNodeToDestination: $focusNodeToDestination, focusNodeFromDestination: $focusNodeFromDestination, fromDestinationSelected: $fromDestinationSelected, toDestinationSelected: $toDestinationSelected, startPoint: $startPoint, endPoint: $endPoint, markers: $markers)';
+    return 'RouteEngineState(toDestinationController: $toDestinationController, fromDestinationController: $fromDestinationController, focusNodeToDestination: $focusNodeToDestination, focusNodeFromDestination: $focusNodeFromDestination, fromDestinationSelected: $fromDestinationSelected, toDestinationSelected: $toDestinationSelected, startPoint: $startPoint, endPoint: $endPoint, markers: $markers, polylines: $polylines)';
   }
 
   @override
@@ -275,7 +299,9 @@ class _$RouteEngineStateImpl implements _RouteEngineState {
                 other.startPoint == startPoint) &&
             (identical(other.endPoint, endPoint) ||
                 other.endPoint == endPoint) &&
-            const DeepCollectionEquality().equals(other._markers, _markers));
+            const DeepCollectionEquality().equals(other._markers, _markers) &&
+            const DeepCollectionEquality()
+                .equals(other._polylines, _polylines));
   }
 
   @override
@@ -289,7 +315,8 @@ class _$RouteEngineStateImpl implements _RouteEngineState {
       toDestinationSelected,
       startPoint,
       endPoint,
-      const DeepCollectionEquality().hash(_markers));
+      const DeepCollectionEquality().hash(_markers),
+      const DeepCollectionEquality().hash(_polylines));
 
   /// Create a copy of RouteEngineState
   /// with the given fields replaced by the non-null parameter values.
@@ -311,7 +338,8 @@ abstract class _RouteEngineState implements RouteEngineState {
       final bool toDestinationSelected,
       final LatLng? startPoint,
       final LatLng? endPoint,
-      final Set<Marker> markers}) = _$RouteEngineStateImpl;
+      final Set<Marker> markers,
+      final Set<Polyline> polylines}) = _$RouteEngineStateImpl;
 
   @override
   TextEditingController get toDestinationController;
@@ -331,6 +359,8 @@ abstract class _RouteEngineState implements RouteEngineState {
   LatLng? get endPoint;
   @override
   Set<Marker> get markers;
+  @override
+  Set<Polyline> get polylines;
 
   /// Create a copy of RouteEngineState
   /// with the given fields replaced by the non-null parameter values.

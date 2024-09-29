@@ -60,7 +60,12 @@ class RouteEngineCubit extends Cubit<RouteEngineState> {
 
   void getPolyline() async {
     if (state.startPoint != null && state.endPoint != null) {
-      routeEngineRepository.getPolyline(state.startPoint!, state.endPoint!);
+      final result = await routeEngineRepository.getPolyline(
+          state.startPoint!, state.endPoint!);
+      result.fold(
+        (l) {},
+        (r) => emit(state.copyWith(polylines: {r})),
+      );
     }
   }
 

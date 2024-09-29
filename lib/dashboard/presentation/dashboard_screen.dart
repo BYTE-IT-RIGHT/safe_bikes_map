@@ -24,8 +24,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
   final Set<Polyline> polylines = {};
 
   static const CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(37.42796133580664, -122.085749655962),
-    zoom: 5,
+    target: LatLng(50.07099433580664, 19.935496555962),
+    zoom: 10,
   );
 
   @override
@@ -45,7 +45,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   child: GoogleMap(
                     mapType: MapType.normal,
                     initialCameraPosition: _kGooglePlex,
-                    polylines: polylines,
+                    polylines: //{Polyline(polylineId: PolylineId('route'), points: [LatLng(50.09140977784585, 19.946254044771198),LatLng(50.042045082693015, 19.952205196022987)])},
+                        state.polylines,
                     markers: state.markers,
                     onTap: (argument) {
                       if (state.fromDestinationSelected ||

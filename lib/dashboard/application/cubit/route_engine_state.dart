@@ -12,5 +12,6 @@ class RouteEngineState with _$RouteEngineState {
     LatLng? startPoint,
     LatLng? endPoint,
     @Default({}) Set<Marker> markers,
+    @Default({}) Set<Polyline> polylines,
   }) = _RouteEngineState;
 }
