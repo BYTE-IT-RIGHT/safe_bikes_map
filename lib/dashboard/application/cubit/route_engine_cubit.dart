@@ -35,7 +35,7 @@ class RouteEngineCubit extends Cubit<RouteEngineState> {
     });
   }
 
-  void addStartPoint(LatLng v) {
+  void addStartPoint(LatLng v) async {
     final markers = Set<Marker>.from(state.markers);
     markers.removeWhere((element) => element.markerId.value == 'from');
     markers.add(Marker(markerId: const MarkerId('from'), position: v));
@@ -45,9 +45,12 @@ class RouteEngineCubit extends Cubit<RouteEngineState> {
         ..text = v.toString(),
       markers: markers,
     ));
+    if (state.endPoint != null) {
+      await _getPolyline();
+    }
   }
 
-  void addEndPoint(LatLng v) {
+  void addEndPoint(LatLng v) async {
     final markers = Set<Marker>.from(state.markers);
     markers.removeWhere((element) => element.markerId.value == 'to');
     markers.add(Marker(markerId: const MarkerId('to'), position: v));
@@ -56,9 +59,12 @@ class RouteEngineCubit extends Cubit<RouteEngineState> {
         toDestinationController: state.toDestinationController
           ..text = v.toString(),
         markers: markers));
+    if (state.startPoint != null) {
+      await _getPolyline();
+    }
   }
 
-  void getPolyline() async {
+  Future<void> _getPolyline() async {
     if (state.startPoint != null && state.endPoint != null) {
       final result = await routeEngineRepository.getPolyline(
           state.startPoint!, state.endPoint!);

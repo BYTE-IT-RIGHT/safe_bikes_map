@@ -45,8 +45,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   child: GoogleMap(
                     mapType: MapType.normal,
                     initialCameraPosition: _kGooglePlex,
-                    polylines: //{Polyline(polylineId: PolylineId('route'), points: [LatLng(50.09140977784585, 19.946254044771198),LatLng(50.042045082693015, 19.952205196022987)])},
-                        state.polylines,
+                    polylines: state.polylines,
                     markers: state.markers,
                     onTap: (argument) {
                       if (state.fromDestinationSelected ||
@@ -88,8 +87,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ],
             ),
           ),
-          floatingActionButton: FloatingActionButton(
-              onPressed: () => context.read<RouteEngineCubit>().getPolyline()),
+          // floatingActionButton: FloatingActionButton(
+          //     onPressed: () => context.read<RouteEngineCubit>().getPolyline()),
         ),
       ),
     );

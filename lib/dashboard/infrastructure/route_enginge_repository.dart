@@ -35,10 +35,8 @@ class RouteEngingeRepository implements IRouteEngineRepository {
           Uri.parse('http://165.227.244.153/route'),
           body: jsonEncode(body));
       if (response.statusCode == 200) {
-        log('polyLine get success');
         final pointLatLng = _decodePolyline(jsonDecode(response.body));
         final latLeng = pointLatLng.map((e) => LatLng(e[0], e[1])).toList();
-        log('polyLine get success $latLeng');
         return right(
             Polyline(polylineId: const PolylineId('Route'), points: latLeng));
       } else {
@@ -66,7 +64,6 @@ class RouteEngingeRepository implements IRouteEngineRepository {
     double factor = math.pow(10, precision).toDouble();
 
     while (index < encodedShape.length) {
-      // Reset shift, result, and byte
       byte = shift = result = 0;
 
       do {
@@ -95,42 +92,4 @@ class RouteEngingeRepository implements IRouteEngineRepository {
 
     return coordinates;
   }
-
-  // List<PointLatLng> _decodePolyline(Map<String, dynamic> data) {
-  //   final polylinePoints = PolylinePoints();
-  //   String encodedShape = data['trip']['legs'][0]['shape'];
-  //   log(encodedShape);
-  //   List<PointLatLng> result = polylinePoints.decodePolyline(encodedShape);
-  //   return result;
-  //   // List<List<double>> polyline = [];
-  //   // int index = 0, len = encodedShape.length;
-  //   // int lat = 0, lng = 0;
-
-  //   // while (index < len) {
-  //   //   int b, shift = 0, result = 0;
-  //   //   do {
-  //   //     b = encodedShape.codeUnitAt(index++) - 63;
-  //   //     result |= (b & 0x1F) << shift;
-  //   //     shift += 5;
-  //   //   } while (b >= 0x20);
-  //   //   int deltaLat = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
-  //   //   lat += deltaLat;
-
-  //   //   shift = 0;
-  //   //   result = 0;
-  //   //   do {
-  //   //     b = encodedShape.codeUnitAt(index++) - 63;
-  //   //     result |= (b & 0x1F) << shift;
-  //   //     shift += 5;
-  //   //   } while (b >= 0x20);
-  //   //   int deltaLng = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
-  //   //   lng += deltaLng;
-
-  //   //   double finalLat = lat / 1E5;
-  //   //   double finalLng = lng / 1E5;
-  //   //   polyline.add([finalLat, finalLng]);
-  //   // }
-
-  //   // return polyline;
-  // }
 }
