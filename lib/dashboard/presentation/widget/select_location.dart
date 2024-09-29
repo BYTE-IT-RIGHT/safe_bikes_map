@@ -36,51 +36,57 @@ class SelectLocation extends StatefulWidget {
 class _SelectLocationState extends State<SelectLocation> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: widget.isSelected ? EdgeInsets.zero : const EdgeInsets.all(1),
-      child: Row(
-        children: [
-          widget.prefix,
-          Expanded(
-            child: GooglePlaceAutoCompleteTextField(
-                textEditingController: widget.controller,
-                googleAPIKey: Secrets.googleApiKey,
-                countries: const ['pl'],
-                language: 'pl',
-                focusNode: widget.focusNode,
-                boxDecoration: const BoxDecoration(
-                  border: null,
-                ),
-                itemClick: (postalCodeResponse) =>
-                    widget.onTap(postalCodeResponse),
-                inputDecoration: InputDecoration(
-                    hintText: widget.defaultText,
-                    hintStyle: TextStyle(
-                        color: Colors.black.withOpacity(
-                            widget.controller.text.isEmpty ? 0.5 : 1)),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        borderSide: const BorderSide()),
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        borderSide: BorderSide(color: widget.color, width: 2)),
-                    suffixIcon: widget.enableMyLocation
-                        ? BlocBuilder<RouteEngineCubit, RouteEngineState>(
-                            builder: (context, state) => RawMaterialButton(
-                              shape: const CircleBorder(),
-                              onPressed: () => widget.onMyLocationClick!(),
-                              child: Icon(
-                                Icons.my_location_outlined,
-                                color: state.useUserLocalization
-                                    ? Colors.blue
-                                    : Colors.black.withOpacity(0.4),
-                              ),
-                            ),
-                          )
-                        : null)),
-          ),
-        ],
-      ),
-    );
+    return BlocBuilder<RouteEngineCubit, RouteEngineState>(
+        builder: (context, state) => Padding(
+              padding:
+                  widget.isSelected ? EdgeInsets.zero : const EdgeInsets.all(1),
+              child: Row(
+                children: [
+                  widget.prefix,
+                  Expanded(
+                    child: GooglePlaceAutoCompleteTextField(
+                        textEditingController: widget.controller,
+                        googleAPIKey: Secrets.googleApiKey,
+                        countries: const ['pl'],
+                        language: 'pl',
+                        focusNode: widget.focusNode,
+                        boxDecoration: const BoxDecoration(
+                          border: null,
+                        ),
+                        textStyle: TextStyle(
+                            color: widget.controller.text == 'TWOJA LOKALIZACJA'
+                                ? Colors.blue
+                                : Colors.black),
+                        itemClick: (postalCodeResponse) =>
+                            widget.onTap(postalCodeResponse),
+                        inputDecoration: InputDecoration(
+                            hintText: widget.defaultText,
+                            hintStyle: TextStyle(
+                                color: Colors.black.withOpacity(
+                                    widget.controller.text.isEmpty ? 0.5 : 1)),
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: const BorderSide()),
+                            focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide:
+                                    BorderSide(color: widget.color, width: 2)),
+                            suffixIcon: widget.enableMyLocation
+                                ? RawMaterialButton(
+                                    shape: const CircleBorder(),
+                                    onPressed: () =>
+                                        widget.onMyLocationClick!(),
+                                    child: Icon(
+                                      Icons.my_location_outlined,
+                                      color: state.useUserLocalization
+                                          ? Colors.blue
+                                          : Colors.black.withOpacity(0.4),
+                                    ),
+                                  )
+                                : null)),
+                  ),
+                ],
+              ),
+            ));
   }
 }

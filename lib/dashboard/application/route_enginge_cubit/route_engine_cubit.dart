@@ -118,6 +118,9 @@ class RouteEngineCubit extends Cubit<RouteEngineState> {
       markers.removeWhere((element) => element.markerId.value == 'from');
       emit(state.copyWith(startPoint: null, markers: markers));
     }
-    emit(state.copyWith(useUserLocalization: !state.useUserLocalization));
+    emit(state.copyWith(
+        useUserLocalization: !state.useUserLocalization,
+        fromDestinationController: state.fromDestinationController
+          ..text = !state.useUserLocalization ? 'TWOJA LOKALIZACJA' : ''));
   }
 }
