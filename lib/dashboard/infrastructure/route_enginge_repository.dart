@@ -52,7 +52,6 @@ class RouteEngingeRepository implements IRouteEngineRepository {
         final decodedJson = jsonDecode(response.body);
         final pointLatLng = _decodePolyline(decodedJson);
         final latLeng = pointLatLng.map((e) => LatLng(e[0], e[1])).toList();
-        log(response.body);
         final time = decodedJson['trip']['summary']['time'];
         final normalizedTimeInSeconds = (time as double).toInt();
         return right(PolylineResponse(

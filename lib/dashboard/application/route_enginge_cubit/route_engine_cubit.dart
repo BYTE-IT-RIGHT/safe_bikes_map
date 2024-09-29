@@ -44,6 +44,8 @@ class RouteEngineCubit extends Cubit<RouteEngineState> {
     });
   }
 
+  void enableNavigation()=> emit(state.copyWith(navigationEnabled: !state.navigationEnabled));
+
   void updateSettings(Settings newSettings) async {
     emit(state.copyWith(settings: newSettings));
     await getPolyline();
@@ -106,7 +108,9 @@ class RouteEngineCubit extends Cubit<RouteEngineState> {
           settings: state.settings);
       result.fold(
         (l) {},
-        (r) => emit(state.copyWith(polylines: {r.polyline})),
+        (r) => emit(state.copyWith(
+          estimatedArivalTime: r.arivalTime,
+          polylines: {r.polyline})),
       );
     }
   }

@@ -14,7 +14,7 @@ class SettingsBottomSheet extends StatelessWidget {
       value: cubit,
       child: BlocBuilder<RouteEngineCubit, RouteEngineState>(
         builder: (context, state) => Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 32),
+          padding: const EdgeInsets.only(left: 16, right: 16, top: 32),
           child: Center(
             child: SingleChildScrollView(
               child: Column(
@@ -24,7 +24,8 @@ class SettingsBottomSheet extends StatelessWidget {
                         alreadySelected: state.settings.bikeType,
                         onSelect: (v) => context
                             .read<RouteEngineCubit>()
-                            .updateSettings(state.settings.copyWith(bikeType: v)),
+                            .updateSettings(
+                                state.settings.copyWith(bikeType: v)),
                         text: 'Rodzaj roweru'),
                     SettingsRow(
                         alreadySelected: state.settings.avoidBadSurface,
@@ -37,8 +38,8 @@ class SettingsBottomSheet extends StatelessWidget {
                         alreadySelected: state.settings.avoidHighTraficRoads,
                         onSelect: (v) => context
                             .read<RouteEngineCubit>()
-                            .updateSettings(
-                                state.settings.copyWith(avoidHighTraficRoads: v)),
+                            .updateSettings(state.settings
+                                .copyWith(avoidHighTraficRoads: v)),
                         text: 'unikaj ruchliwych dróg '),
                     SettingsRow(
                         alreadySelected: state.settings.avoidHills,
