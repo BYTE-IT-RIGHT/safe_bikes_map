@@ -314,10 +314,9 @@ class _$RouteEngineStateImpl implements _RouteEngineState {
                 other.fromDestinationSelected == fromDestinationSelected) &&
             (identical(other.toDestinationSelected, toDestinationSelected) ||
                 other.toDestinationSelected == toDestinationSelected) &&
-            (identical(other.startPoint, startPoint) ||
-                other.startPoint == startPoint) &&
-            (identical(other.endPoint, endPoint) ||
-                other.endPoint == endPoint) &&
+            const DeepCollectionEquality()
+                .equals(other.startPoint, startPoint) &&
+            const DeepCollectionEquality().equals(other.endPoint, endPoint) &&
             const DeepCollectionEquality().equals(other._markers, _markers) &&
             const DeepCollectionEquality()
                 .equals(other._polylines, _polylines));
@@ -333,8 +332,8 @@ class _$RouteEngineStateImpl implements _RouteEngineState {
       useUserLocalization,
       fromDestinationSelected,
       toDestinationSelected,
-      startPoint,
-      endPoint,
+      const DeepCollectionEquality().hash(startPoint),
+      const DeepCollectionEquality().hash(endPoint),
       const DeepCollectionEquality().hash(_markers),
       const DeepCollectionEquality().hash(_polylines));
 

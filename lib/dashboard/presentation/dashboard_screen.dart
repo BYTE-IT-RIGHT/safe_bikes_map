@@ -8,6 +8,7 @@ import 'package:safe_bikes_map/dashboard/application/geolocalization_cubit/geolo
 import 'package:safe_bikes_map/dashboard/application/route_enginge_cubit/route_engine_cubit.dart';
 import 'package:safe_bikes_map/dashboard/domain/i_route_engine_repository.dart';
 import 'package:safe_bikes_map/dashboard/presentation/widget/app_navigation_bar.dart';
+import 'package:safe_bikes_map/dashboard/presentation/widget/settings_bottom_sheet.dart';
 import 'package:safe_bikes_map/di_module.dart';
 import 'package:safe_bikes_map/geolocalization/domain/i_geolocalization_repository.dart';
 
@@ -98,6 +99,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   ),
                 ],
               ),
+            ),
+            floatingActionButton: FloatingActionButton(
+              onPressed: () => showModalBottomSheet(
+                context: context,
+                builder: (context) => const SettingsBottomSheet(),
+              ),
+              child: const Icon(Icons.settings),
             ),
           ),
         ),
