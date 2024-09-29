@@ -48,8 +48,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
             geolocaliaztionState.whenOrNull(
               data: (data) {
                 context.read<RouteEngineCubit>().updateUserPosition(data);
-
-                // context.read<RouteEngineCubit>().getPolyline();
+                if (routeEngingeState.useUserLocalization) {
+                  context.read<RouteEngineCubit>().getPolyline();
+                }
               },
             );
           },

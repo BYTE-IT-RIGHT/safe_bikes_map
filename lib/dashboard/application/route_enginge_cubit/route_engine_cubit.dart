@@ -72,9 +72,13 @@ class RouteEngineCubit extends Cubit<RouteEngineState> {
     }
   }
 
-  Future<void> getPolyline({bool useUserPosition = false}) async {
-    if ((state.startPoint != null || useUserPosition) &&
-        state.endPoint != null) {
+  Future<void> getPolyline() async {
+    if (state.startPoint == null && state.useUserLocalization) {
+      final userLocalization = state.markers
+          .firstWhere((element) => element.markerId.value == 'user_position');
+      emit(state.copyWith(startPoint: userLocalization.position));
+    }
+    if (state.startPoint != null && state.endPoint != null) {
       final result = await routeEngineRepository.getPolyline(
           state.startPoint!, state.endPoint!);
       result.fold(
@@ -84,16 +88,34 @@ class RouteEngineCubit extends Cubit<RouteEngineState> {
     }
   }
 
-  void updateToDestinationText(Prediction prediction) => emit(state.copyWith(
-      toDestinationController: state.toDestinationController
-        ..text = prediction.description ?? ''));
+  void updateToDestinationText(Prediction prediction) async {
+    final latLang = LatLng(double.tryParse(prediction.lat ?? '') ?? 0.0,
+        double.tryParse(prediction.lng ?? '') ?? 0.0);
+    final markers = Set<Marker>.from(state.markers);
+    markers.removeWhere((element) => element.markerId.value == 'to');
+    final data = await rootBundle.load('assets/png/zielony-dot.png');
+    final uint8list = data.buffer.asUint8List();
+    markers.add(Marker(
+        markerId: const MarkerId('to'),
+        position: latLang,
+        icon: BitmapDescriptor.bytes(uint8list)));
+    emit(state.copyWith(
+        startPoint: latLang,
+        toDestinationController: state.toDestinationController
+          ..text = prediction.description ?? ''));
+  }
 
-  void updateFromDestinationText(Prediction prediction) {
+  void updateFromDestinationText(Prediction prediction) async {
     final latLang = LatLng(double.tryParse(prediction.lat ?? '') ?? 0.0,
         double.tryParse(prediction.lng ?? '') ?? 0.0);
     final markers = Set<Marker>.from(state.markers);
     markers.removeWhere((element) => element.markerId.value == 'from');
-    markers.add(Marker(markerId: const MarkerId('from'), position: latLang));
+    final data = await rootBundle.load('assets/png/zielony-dot.png');
+    final uint8list = data.buffer.asUint8List();
+    markers.add(Marker(
+        markerId: const MarkerId('from'),
+        position: latLang,
+        icon: BitmapDescriptor.bytes(uint8list)));
     emit(state.copyWith(
         startPoint: latLang,
         fromDestinationController: state.fromDestinationController
@@ -103,7 +125,7 @@ class RouteEngineCubit extends Cubit<RouteEngineState> {
   void updateUserPosition(Position newPosition) async {
     final markers = Set<Marker>.from(state.markers);
     markers.removeWhere((element) => element.markerId.value == 'user_position');
-    final data = await rootBundle.load('assets/png/zielony-dot.png');
+    final data = await rootBundle.load('assets/png/niebieski-dot.png');
     final uint8list = data.buffer.asUint8List();
     markers.add(Marker(
         markerId: const MarkerId('user_position'),
@@ -112,7 +134,7 @@ class RouteEngineCubit extends Cubit<RouteEngineState> {
     emit(state.copyWith(markers: markers));
   }
 
-  void useUserLocalization() {
+  void useUserLocalization() async {
     if (state.startPoint != null) {
       final markers = Set<Marker>.from(state.markers);
       markers.removeWhere((element) => element.markerId.value == 'from');
@@ -122,5 +144,6 @@ class RouteEngineCubit extends Cubit<RouteEngineState> {
         useUserLocalization: !state.useUserLocalization,
         fromDestinationController: state.fromDestinationController
           ..text = !state.useUserLocalization ? 'TWOJA LOKALIZACJA' : ''));
+    await getPolyline();
   }
 }
