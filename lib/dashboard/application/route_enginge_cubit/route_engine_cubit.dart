@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:geolocator/geolocator.dart';
@@ -36,9 +37,15 @@ class RouteEngineCubit extends Cubit<RouteEngineState> {
     });
   }
 
-  void addStartPoint(LatLng v) async {
+  void addStartPoint(LatLng v, {bool useUserLocalization = false}) async {
     final markers = Set<Marker>.from(state.markers);
     markers.removeWhere((element) => element.markerId.value == 'from');
+    if (useUserLocalization) {
+      final userMarker = state.markers
+          .firstWhere((element) => element.markerId.value == 'user_position');
+      emit(state.copyWith(startPoint: userMarker.position));
+      return;
+    }
     markers.add(Marker(markerId: const MarkerId('from'), position: v));
     emit(state.copyWith(
       startPoint: v,
@@ -47,7 +54,7 @@ class RouteEngineCubit extends Cubit<RouteEngineState> {
       markers: markers,
     ));
     if (state.endPoint != null) {
-      await _getPolyline();
+      await getPolyline();
     }
   }
 
@@ -61,12 +68,13 @@ class RouteEngineCubit extends Cubit<RouteEngineState> {
           ..text = v.toString(),
         markers: markers));
     if (state.startPoint != null) {
-      await _getPolyline();
+      await getPolyline();
     }
   }
 
-  Future<void> _getPolyline() async {
-    if (state.startPoint != null && state.endPoint != null) {
+  Future<void> getPolyline({bool useUserPosition = false}) async {
+    if ((state.startPoint != null || useUserPosition) &&
+        state.endPoint != null) {
       final result = await routeEngineRepository.getPolyline(
           state.startPoint!, state.endPoint!);
       result.fold(
@@ -92,13 +100,15 @@ class RouteEngineCubit extends Cubit<RouteEngineState> {
           ..text = prediction.description ?? ''));
   }
 
-  void updateUserPosition(Position newPosition) {
+  void updateUserPosition(Position newPosition) async {
     final markers = Set<Marker>.from(state.markers);
     markers.removeWhere((element) => element.markerId.value == 'user_position');
+    final data = await rootBundle.load('assets/png/zielony-dot.png');
+    final uint8list = data.buffer.asUint8List();
     markers.add(Marker(
         markerId: const MarkerId('user_position'),
-        position: LatLng(newPosition.latitude, newPosition.longitude)));
-        print(markers);
+        position: LatLng(newPosition.latitude, newPosition.longitude),
+        icon: BitmapDescriptor.bytes(uint8list)));
     emit(state.copyWith(markers: markers));
   }
 }

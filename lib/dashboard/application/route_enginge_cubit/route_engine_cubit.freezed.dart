@@ -22,6 +22,7 @@ mixin _$RouteEngineState {
       throw _privateConstructorUsedError;
   FocusNode get focusNodeToDestination => throw _privateConstructorUsedError;
   FocusNode get focusNodeFromDestination => throw _privateConstructorUsedError;
+  bool get useUserLocalization => throw _privateConstructorUsedError;
   bool get fromDestinationSelected => throw _privateConstructorUsedError;
   bool get toDestinationSelected => throw _privateConstructorUsedError;
   LatLng? get startPoint => throw _privateConstructorUsedError;
@@ -47,6 +48,7 @@ abstract class $RouteEngineStateCopyWith<$Res> {
       TextEditingController fromDestinationController,
       FocusNode focusNodeToDestination,
       FocusNode focusNodeFromDestination,
+      bool useUserLocalization,
       bool fromDestinationSelected,
       bool toDestinationSelected,
       LatLng? startPoint,
@@ -74,6 +76,7 @@ class _$RouteEngineStateCopyWithImpl<$Res, $Val extends RouteEngineState>
     Object? fromDestinationController = null,
     Object? focusNodeToDestination = null,
     Object? focusNodeFromDestination = null,
+    Object? useUserLocalization = null,
     Object? fromDestinationSelected = null,
     Object? toDestinationSelected = null,
     Object? startPoint = freezed,
@@ -98,6 +101,10 @@ class _$RouteEngineStateCopyWithImpl<$Res, $Val extends RouteEngineState>
           ? _value.focusNodeFromDestination
           : focusNodeFromDestination // ignore: cast_nullable_to_non_nullable
               as FocusNode,
+      useUserLocalization: null == useUserLocalization
+          ? _value.useUserLocalization
+          : useUserLocalization // ignore: cast_nullable_to_non_nullable
+              as bool,
       fromDestinationSelected: null == fromDestinationSelected
           ? _value.fromDestinationSelected
           : fromDestinationSelected // ignore: cast_nullable_to_non_nullable
@@ -139,6 +146,7 @@ abstract class _$$RouteEngineStateImplCopyWith<$Res>
       TextEditingController fromDestinationController,
       FocusNode focusNodeToDestination,
       FocusNode focusNodeFromDestination,
+      bool useUserLocalization,
       bool fromDestinationSelected,
       bool toDestinationSelected,
       LatLng? startPoint,
@@ -164,6 +172,7 @@ class __$$RouteEngineStateImplCopyWithImpl<$Res>
     Object? fromDestinationController = null,
     Object? focusNodeToDestination = null,
     Object? focusNodeFromDestination = null,
+    Object? useUserLocalization = null,
     Object? fromDestinationSelected = null,
     Object? toDestinationSelected = null,
     Object? startPoint = freezed,
@@ -188,6 +197,10 @@ class __$$RouteEngineStateImplCopyWithImpl<$Res>
           ? _value.focusNodeFromDestination
           : focusNodeFromDestination // ignore: cast_nullable_to_non_nullable
               as FocusNode,
+      useUserLocalization: null == useUserLocalization
+          ? _value.useUserLocalization
+          : useUserLocalization // ignore: cast_nullable_to_non_nullable
+              as bool,
       fromDestinationSelected: null == fromDestinationSelected
           ? _value.fromDestinationSelected
           : fromDestinationSelected // ignore: cast_nullable_to_non_nullable
@@ -224,6 +237,7 @@ class _$RouteEngineStateImpl implements _RouteEngineState {
       required this.fromDestinationController,
       required this.focusNodeToDestination,
       required this.focusNodeFromDestination,
+      this.useUserLocalization = false,
       this.fromDestinationSelected = false,
       this.toDestinationSelected = false,
       this.startPoint,
@@ -241,6 +255,9 @@ class _$RouteEngineStateImpl implements _RouteEngineState {
   final FocusNode focusNodeToDestination;
   @override
   final FocusNode focusNodeFromDestination;
+  @override
+  @JsonKey()
+  final bool useUserLocalization;
   @override
   @JsonKey()
   final bool fromDestinationSelected;
@@ -271,7 +288,7 @@ class _$RouteEngineStateImpl implements _RouteEngineState {
 
   @override
   String toString() {
-    return 'RouteEngineState(toDestinationController: $toDestinationController, fromDestinationController: $fromDestinationController, focusNodeToDestination: $focusNodeToDestination, focusNodeFromDestination: $focusNodeFromDestination, fromDestinationSelected: $fromDestinationSelected, toDestinationSelected: $toDestinationSelected, startPoint: $startPoint, endPoint: $endPoint, markers: $markers, polylines: $polylines)';
+    return 'RouteEngineState(toDestinationController: $toDestinationController, fromDestinationController: $fromDestinationController, focusNodeToDestination: $focusNodeToDestination, focusNodeFromDestination: $focusNodeFromDestination, useUserLocalization: $useUserLocalization, fromDestinationSelected: $fromDestinationSelected, toDestinationSelected: $toDestinationSelected, startPoint: $startPoint, endPoint: $endPoint, markers: $markers, polylines: $polylines)';
   }
 
   @override
@@ -290,6 +307,8 @@ class _$RouteEngineStateImpl implements _RouteEngineState {
             (identical(
                     other.focusNodeFromDestination, focusNodeFromDestination) ||
                 other.focusNodeFromDestination == focusNodeFromDestination) &&
+            (identical(other.useUserLocalization, useUserLocalization) ||
+                other.useUserLocalization == useUserLocalization) &&
             (identical(
                     other.fromDestinationSelected, fromDestinationSelected) ||
                 other.fromDestinationSelected == fromDestinationSelected) &&
@@ -311,6 +330,7 @@ class _$RouteEngineStateImpl implements _RouteEngineState {
       fromDestinationController,
       focusNodeToDestination,
       focusNodeFromDestination,
+      useUserLocalization,
       fromDestinationSelected,
       toDestinationSelected,
       startPoint,
@@ -334,6 +354,7 @@ abstract class _RouteEngineState implements RouteEngineState {
       required final TextEditingController fromDestinationController,
       required final FocusNode focusNodeToDestination,
       required final FocusNode focusNodeFromDestination,
+      final bool useUserLocalization,
       final bool fromDestinationSelected,
       final bool toDestinationSelected,
       final LatLng? startPoint,
@@ -349,6 +370,8 @@ abstract class _RouteEngineState implements RouteEngineState {
   FocusNode get focusNodeToDestination;
   @override
   FocusNode get focusNodeFromDestination;
+  @override
+  bool get useUserLocalization;
   @override
   bool get fromDestinationSelected;
   @override

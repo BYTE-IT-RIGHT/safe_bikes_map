@@ -47,9 +47,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
           listener: (context, geolocaliaztionState) {
             geolocaliaztionState.whenOrNull(
               data: (data) {
-                print('dsadas');
-                print(data);
                 context.read<RouteEngineCubit>().updateUserPosition(data);
+
+                // context.read<RouteEngineCubit>().getPolyline();
               },
             );
           },
@@ -57,8 +57,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
             body: SafeArea(
               child: Column(
                 children: [
-                  const Padding(
-                      padding: EdgeInsets.all(8.0), child: AppNavigationBar()),
+                  Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: AppNavigationBar(
+                        onMyLocationClick: () {},
+                      )),
                   Expanded(
                     child: GoogleMap(
                       mapType: MapType.normal,
@@ -70,7 +73,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         if (routeEngingeState.fromDestinationSelected ||
                             (!routeEngingeState.fromDestinationSelected &&
                                 !routeEngingeState.toDestinationSelected)) {
-                          routeEngingeState.focusNodeFromDestination.requestFocus();
+                          routeEngingeState.focusNodeFromDestination
+                              .requestFocus();
                           context
                               .read<RouteEngineCubit>()
                               .addStartPoint(argument);

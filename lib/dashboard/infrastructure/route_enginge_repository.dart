@@ -30,7 +30,7 @@ class RouteEngingeRepository implements IRouteEngineRepository {
           }
         ],
         'costing': 'bicycle',
-        'directions_options': {'units': 'kilometers'}
+        'directions_options': {'units': 'kilometers', 'use_roads':0.01}
       };
       final response = await http.post(
           Uri.parse('http://165.227.244.153/route'),

@@ -4,7 +4,8 @@ import 'package:safe_bikes_map/dashboard/application/route_enginge_cubit/route_e
 import 'package:safe_bikes_map/dashboard/presentation/widget/select_location.dart';
 
 class AppNavigationBar extends StatelessWidget {
-  const AppNavigationBar({super.key});
+  final Function onMyLocationClick;
+  const AppNavigationBar({super.key, required this.onMyLocationClick});
 
   Row _buildPrefixRow(
       {required IconData firstIcon,
@@ -36,6 +37,8 @@ class AppNavigationBar extends StatelessWidget {
             focusNode: state.focusNodeFromDestination,
             defaultText: 'Skąd jedziemy...',
             color: Colors.blue,
+            enableMyLocation: true,
+            onMyLocationClick: onMyLocationClick,
             prefix: _buildPrefixRow(
                 firstIcon: Icons.arrow_forward,
                 secondIcon: Icons.circle,
@@ -51,6 +54,7 @@ class AppNavigationBar extends StatelessWidget {
             focusNode: state.focusNodeToDestination,
             defaultText: 'Dokąd jedziemy...',
             color: Colors.green,
+            enableMyLocation: false,
             prefix: _buildPrefixRow(
                 firstIcon: Icons.circle,
                 secondIcon: Icons.arrow_back,

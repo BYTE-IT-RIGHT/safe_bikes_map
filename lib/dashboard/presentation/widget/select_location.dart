@@ -12,17 +12,20 @@ class SelectLocation extends StatefulWidget {
   final Color color;
   final FocusNode focusNode;
   final TextEditingController controller;
-  const SelectLocation({
-    super.key,
-    required this.isSelected,
-    required this.text,
-    required this.defaultText,
-    required this.onTap,
-    required this.prefix,
-    required this.color,
-    required this.focusNode,
-    required this.controller,
-  });
+  final bool enableMyLocation;
+  final Function? onMyLocationClick;
+  const SelectLocation(
+      {super.key,
+      required this.isSelected,
+      required this.text,
+      required this.defaultText,
+      required this.onTap,
+      required this.prefix,
+      required this.color,
+      required this.focusNode,
+      required this.controller,
+      required this.enableMyLocation,
+      this.onMyLocationClick});
 
   @override
   State<SelectLocation> createState() => _SelectLocationState();
@@ -49,17 +52,23 @@ class _SelectLocationState extends State<SelectLocation> {
                 itemClick: (postalCodeResponse) =>
                     widget.onTap(postalCodeResponse),
                 inputDecoration: InputDecoration(
-                  hintText: widget.defaultText,
-                  hintStyle: TextStyle(
-                      color: Colors.black.withOpacity(
-                          widget.controller.text.isEmpty ? 0.5 : 1)),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: const BorderSide()),
-                  focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: BorderSide(color: widget.color, width: 2)),
-                )),
+                    hintText: widget.defaultText,
+                    hintStyle: TextStyle(
+                        color: Colors.black.withOpacity(
+                            widget.controller.text.isEmpty ? 0.5 : 1)),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        borderSide: const BorderSide()),
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        borderSide: BorderSide(color: widget.color, width: 2)),
+                    suffixIcon: widget.enableMyLocation
+                        ? RawMaterialButton(
+                            shape: const CircleBorder(),
+                            onPressed: () => widget.onMyLocationClick!(),
+                            child: const Icon(Icons.my_location_outlined),
+                          )
+                        : null)),
           ),
         ],
       ),
