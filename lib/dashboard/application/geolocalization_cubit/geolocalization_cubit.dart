@@ -20,7 +20,6 @@ class GeolocalizationCubit extends Cubit<GeolocalizationState> {
     result.fold(
         (l) {},
         (r) => _positionSubscribtion = r.listen((event) {
-              print(event);
               emit(GeolocalizationState.data(event));
             }));
   }

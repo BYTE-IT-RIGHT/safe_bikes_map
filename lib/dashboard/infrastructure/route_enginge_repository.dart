@@ -33,10 +33,14 @@ class RouteEngingeRepository implements IRouteEngineRepository {
         'costing': 'bicycle',
         'directions_options': {
           'units': 'kilometers',
-          'use_roads': settings.avoidHighTraficRoads.getApiValue(false),
-          'use_hills': settings.avoidHills.getApiValue(false),
-          'avoid_bad_surfaces': settings.avoidBadSurface.getApiValue(true),
-          'bicycle_type': settings.bikeType.getBikeByType(),
+        },
+        'costing_options': {
+          'bicycle': {
+            'use_roads': settings.avoidHighTraficRoads.getApiValue(false),
+            'use_hills': settings.avoidHills.getApiValue(false),
+            'avoid_bad_surfaces': settings.avoidBadSurface.getApiValue(true),
+            'bicycle_type': settings.bikeType.getBikeByType(),
+          },
         }
       };
 
